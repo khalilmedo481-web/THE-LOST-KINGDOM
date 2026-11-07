@@ -8,11 +8,11 @@ android {
 
     defaultConfig {
         // Separate package so this 3D test build can install beside an older build.
-        applicationId 'com.lostkingdom.game3d.solo'
+        applicationId 'com.cityrunner.endless'
         minSdk 21
         targetSdk 28
-        versionCode 3
-        versionName '2.1'
+        versionCode 1
+        versionName '1.0'
     }
 
     buildTypes {
