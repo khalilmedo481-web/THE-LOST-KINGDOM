@@ -3,7 +3,7 @@ name: Build and publish THE LOST KINGDOM Android APK
 on:
   workflow_dispatch:
   push:
-    branches: [ main ]
+    branches: [ main, city-runner ]
 
 permissions:
   contents: write
@@ -49,7 +49,7 @@ jobs:
           unzip -t "$APK"
           "$ANDROID_HOME/build-tools/35.0.0/apksigner" verify --verbose "$APK"
           "$ANDROID_HOME/build-tools/35.0.0/aapt" dump badging "$APK" | tee /tmp/apk-badging.txt
-          grep -q "package: name='com.lostkingdom.game3d.solo'" /tmp/apk-badging.txt
+          grep -q "package: name='com.cityrunner.endless'" /tmp/apk-badging.txt
           unzip -l "$APK" | grep -q 'assets/index.html'
           unzip -l "$APK" | grep -q 'classes.dex'
 
@@ -64,11 +64,11 @@ jobs:
       - name: Publish direct APK download
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: android-3d-build-${{ github.run_number }}
-          name: THE LOST KINGDOM 3D - Android build ${{ github.run_number }}
+          tag_name: city-runner-build-${{ github.run_number }}
+          name: CITY RUNNER 3D - Android build ${{ github.run_number }}
           target_commitish: ${{ github.sha }}
           body: |
-            نسخة Android 3D تجريبية للعبة THE LOST KINGDOM.
+            نسخة Android تجريبية للعبة CITY RUNNER.
             الحد الأدنى Android 5.0، وتعمل دون اتصال بالإنترنت.
           files: app/build/outputs/apk/debug/app-debug.apk
           fail_on_unmatched_files: true
@@ -77,4 +77,4 @@ jobs:
 
       - name: Print direct download link
         run: |
-          echo "APK: https://github.com/${{ github.repository }}/releases/download/android-3d-build-${{ github.run_number }}/app-debug.apk" >> "$GITHUB_STEP_SUMMARY"
+          echo "APK: https://github.com/${{ github.repository }}/releases/download/city-runner-build-${{ github.run_number }}/app-debug.apk" >> "$GITHUB_STEP_SUMMARY"
