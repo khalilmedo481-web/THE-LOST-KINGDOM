@@ -49,7 +49,7 @@ jobs:
           unzip -t "$APK"
           "$ANDROID_HOME/build-tools/35.0.0/apksigner" verify --verbose "$APK"
           "$ANDROID_HOME/build-tools/35.0.0/aapt" dump badging "$APK" | tee /tmp/apk-badging.txt
-          grep -q "package: name='com.lostkingdom.game3d'" /tmp/apk-badging.txt
+          grep -q "package: name='com.lostkingdom.game3d.solo'" /tmp/apk-badging.txt
           unzip -l "$APK" | grep -q 'assets/index.html'
           unzip -l "$APK" | grep -q 'classes.dex'
 
