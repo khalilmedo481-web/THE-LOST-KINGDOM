@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
 <meta name="theme-color" content="#08111c">
-<title>THE LOST KINGDOM — 3D Adventure</title>
+<title>THE LOST KINGDOM — SOLO BATTLE ROYALE</title>
 <style>
 :root{--gold:#f6ca72;--glass:rgba(8,17,29,.82);--line:rgba(246,202,114,.48)}
 *{box-sizing:border-box;touch-action:manipulation}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#08111c;color:#fff;font-family:Arial,Tahoma,sans-serif;user-select:none;-webkit-user-select:none}
@@ -30,21 +30,21 @@
 <canvas id="game"></canvas><div id="shade"></div>
 <div id="hud">
  <div><div class="top">
-  <div class="glass"><div class="brand">⚔ THE LOST KINGDOM</div><div class="healthWrap"><div id="health" class="healthFill"></div></div><div id="hpText" class="small">❤️ 100 / 100</div><div id="topButtons"><button class="tiny" id="pause">Ⅱ إيقاف</button><button class="tiny" id="sound">♪ صوت</button></div></div>
-  <div class="glass right"><div class="stageLabel" id="stageName">الفصل الأول</div><div class="stats"><span>💎 <b id="gems">0</b>/3</span><span>☠ <b id="kills">0</b></span></div><div class="small">🪙 <span id="coins">0</span>　🏆 <span id="best">1</span></div></div>
- </div><div id="mission" class="glass">اجمع البلورات الثلاث واهزم الحراس لفتح بوابة الخروج</div></div>
+  <div class="glass"><div class="brand">🎯 THE LOST KINGDOM • SOLO</div><div class="healthWrap"><div id="health" class="healthFill"></div></div><div id="hpText" class="small">❤️ 100 / 100</div><div id="topButtons"><button class="tiny" id="pause">Ⅱ إيقاف</button><button class="tiny" id="sound">♪ صوت</button></div></div>
+  <div class="glass right"><div class="stageLabel" id="stageName">باتل رويال فردي</div><div class="stats"><span>👥 <b id="alive">13</b></span><span>☠ <b id="kills">0</b></span></div><div class="small">🔫 <span id="ammo">30</span>　⏱ <span id="clock">03:00</span></div></div>
+ </div><div id="mission" class="glass">ابقَ داخل المنطقة الآمنة • اجمع السلاح • كن آخر ناجٍ</div></div>
  <div class="bottom">
   <div class="controlSide"><div><div class="stick" id="stick"><div class="nub" id="nub"></div></div></div></div>
-  <div class="actions"><button class="action" id="interact">تفاعل</button><button class="action" id="dash">اندفاع</button><button class="action" id="attack">⚔<br>هجوم</button></div>
+  <div class="actions"><button class="action" id="interact">تفاعل</button><button class="action" id="dash">اندفاع</button><button class="action" id="attack">🔫<br>إطلاق</button></div>
  </div>
 </div>
 <div id="bossWrap"><div id="bossName">حارس العرش</div><div id="bossBar"><div id="bossFill"></div></div></div>
 <div id="toast"></div>
 <div id="overlay"><div class="dialog">
- <div class="crest" id="crest">🏰⚔️💎</div><div class="brand">AN EPIC 3D ACTION ADVENTURE</div><h1 id="title">THE LOST KINGDOM</h1>
- <p id="description">مملكة سقطت في الظلام. قاتل الحراس، اجمع البلورات، افتح البوابات، واستعد العرش في مغامرة من 3 فصول.</p>
- <p class="sub" id="instructions">تحكم باللمس • هجمات متتابعة • اندفاع لتفادي الضربات • كنوز وجرعات علاج</p>
- <button class="primary" id="start">ابدأ المغامرة</button><button class="primary secondary" id="language">English</button>
+ <div class="crest" id="crest">🏰⚔️💎</div><div class="brand">SOLO BATTLE ROYALE</div><h1 id="title">THE LOST KINGDOM</h1>
+ <p id="description">انزل إلى ساحة المعركة وحدك. اجمع الأسلحة والذخيرة والعلاج، واهزم 12 خصمًا يتحكم فيهم الذكاء الاصطناعي، وابقَ آخر ناجٍ!</p>
+ <p class="sub" id="instructions">تحكم باللمس • إطلاق نار • اندفاع • منطقة آمنة تتقلص • صناديق غنائم</p>
+ <button class="primary" id="start">ابدأ المباراة</button><button class="primary secondary" id="language">English</button>
 </div></div>
 <script>
 (()=>{'use strict';
@@ -145,10 +145,56 @@ $('start').onclick=()=>{if(stage===3&&$('title').textContent==='استعدت ا�
 $('attack').addEventListener('pointerdown',e=>{e.preventDefault();attack();});$('dash').addEventListener('pointerdown',e=>{e.preventDefault();dash();});$('interact').addEventListener('pointerdown',e=>{e.preventDefault();interact();});
 $('pause').onclick=()=>{if(!started)return;paused=!paused;$('pause').textContent=paused?'▶ متابعة':'Ⅱ إيقاف';if(paused)toast('اللعبة متوقفة مؤقتاً');};
 $('sound').onclick=()=>{muted=!muted;$('sound').textContent=muted?'♪ صامت':'♪ صوت';if(!muted)sound(600,.06);};
-$('language').onclick=()=>{language=language==='ar'?'en':'ar';document.documentElement.lang=language;document.documentElement.dir=language==='ar'?'rtl':'ltr';$('language').textContent=language==='ar'?'English':'العربية';if(language==='en'){$('description').textContent='A fallen kingdom. Fight the guardians, collect crystals, unlock gates, and reclaim the throne across three chapters.';$('instructions').textContent='Touch controls • Combo attacks • Dash to dodge • Treasure and healing potions';$('start').textContent='Begin Adventure';}else{$('description').textContent='مملكة سقطت في الظلام. قاتل الحراس، اجمع البلورات، افتح البوابات، واستعد العرش في مغامرة من 3 فصول.';$('instructions').textContent='تحكم باللمس • هجمات متتابعة • اندفاع لتفادي الضربات • كنوز وجرعات علاج';$('start').textContent='ابدأ المغامرة';}};
+$('language').onclick=()=>{language=language==='ar'?'en':'ar';document.documentElement.lang=language;document.documentElement.dir=language==='ar'?'rtl':'ltr';$('language').textContent=language==='ar'?'English':'العربية';if(language==='en'){$('description').textContent='A fallen kingdom. Fight the guardians, collect crystals, unlock gates, and reclaim the throne across three chapters.';$('instructions').textContent='Touch controls • Combo attacks • Dash to dodge • Treasure and healing potions';$('start').textContent='Begin Adventure';}else{$('description').textContent='انزل إلى ساحة المعركة وحدك. اجمع الأسلحة والذخيرة والعلاج، واهزم 12 خصمًا يتحكم فيهم الذكاء الاصطناعي، وابقَ آخر ناجٍ!';$('instructions').textContent='تحكم باللمس • إطلاق نار • اندفاع • منطقة آمنة تتقلص • صناديق غنائم';$('start').textContent='ابدأ المباراة';}};
 window.addEventListener('keydown',e=>{keys[e.key]=true;if(e.key===' '){e.preventDefault();attack();}if(e.key==='Shift')dash();if(e.key==='e'||e.key==='Enter')interact();if(e.key==='Escape'&&started)paused=!paused;});window.addEventListener('keyup',e=>keys[e.key]=false);
 const stick=$('stick'),nub=$('nub');let active=false;function setStick(e){const r=stick.getBoundingClientRect(),dx=e.clientX-(r.left+r.width/2),dy=e.clientY-(r.top+r.height/2),max=r.width*.34,l=Math.hypot(dx,dy),k=Math.min(1,max/(l||1));const x=dx*k,y=dy*k;nub.style.transform='translate('+x+'px,'+y+'px)';move.x=x/max;move.z=y/max;}
 stick.addEventListener('pointerdown',e=>{active=true;stick.setPointerCapture(e.pointerId);setStick(e);});stick.addEventListener('pointermove',e=>{if(active)setStick(e);});function stopStick(){active=false;move={x:0,z:0};nub.style.transform='';}stick.addEventListener('pointerup',stopStick);stick.addEventListener('pointercancel',stopStick);
+
+let matchTime=180,zoneRadius=19,ammo=30,weapon='مسدس';
+spawnLevel=function(){
+ const spots=[[-5,-4],[4,-7],[-2,-10],[5,-14],[-5,-17],[1,-20],[-3,-24],[4,1],[-6,4],[0,-2],[6,-22],[-1,-27]];
+ enemies=spots.map((p,i)=>enemy(p[0],p[1],i%5===0?'brute':i%3===0?'runner':'guard'));
+ crystals=[];potions=[{x:4,z:-6,got:false},{x:-4,z:-17,got:false},{x:0,z:-25,got:false}];
+ chests=[{x:0,z:-10,open:false},{x:3,z:-20,open:false},{x:-4,z:0,open:false}];traps=[];decor=[];
+ for(let z=3;z>-30;z-=3){decor.push({x:-8.3,z,kind:'tree'},{x:8.3,z:z-1,kind:'tree'});}
+ for(let z=-2;z>-29;z-=6){decor.push({x:-6,z,kind:'torch'},{x:6,z:z-2,kind:'torch'});}
+ gateOpen=false;matchTime=180;zoneRadius=19;ammo=30;weapon='مسدس';updateHud();
+};
+updateHud=function(){
+ const alive=enemies.filter(e=>e.hp>0).length;
+ $('stageName').textContent='باتل رويال فردي';$('health').style.width=player.hp+'%';$('hpText').textContent='❤️ '+Math.ceil(player.hp)+' / 100';
+ $('alive').textContent=alive+1;$('kills').textContent=kills;$('ammo').textContent=ammo;
+ $('clock').textContent=Math.floor(matchTime/60).toString().padStart(2,'0')+':'+Math.floor(matchTime%60).toString().padStart(2,'0');
+ $('mission').textContent='🔵 المنطقة الآمنة: '+Math.max(0,Math.round(zoneRadius))+'م • '+(weapon==='مسدس'?'ابحث عن سلاح أقوى':'السلاح: '+weapon);
+};
+hitEnemy=function(e,damage){e.hp=Math.max(0,e.hp-damage);e.hit=.18;if(e.hp<=0){kills++;coins+=10;toast('🎯 أسقطت خصمًا!');sound(130,.1,'sawtooth',.04);}else sound(220,.05,'square',.02);updateHud();};
+attack=function(){
+ if(!started||paused||attackCd>0)return;if(ammo<=0){toast('الذخيرة خلصت! افتح صندوق غنائم');return;}
+ attackCd=.24;ammo--;swing=.12;let target=null,bestD=14;
+ for(const e of enemies){if(e.hp<=0)continue;const dx=e.x-player.x,dz=e.z-player.z,d=Math.hypot(dx,dz),forward=(dx*facing.x+dz*facing.z)/(d||1);if(d<bestD&&forward>.68){target=e;bestD=d;}}
+ if(target){hitEnemy(target,weapon==='بندقية'?2:1);toast('💥 إصابة!');}else sound(150,.04,'square',.02);
+ if(navigator.vibrate)navigator.vibrate(15);updateHud();
+};
+interact=function(){
+ if(!started||paused)return;const chest=chests.find(c=>!c.open&&Math.hypot(c.x-player.x,c.z-player.z)<1.8);
+ if(chest){chest.open=true;coins+=50;ammo=Math.min(90,ammo+25);weapon='بندقية';player.hp=Math.min(100,player.hp+20);toast('📦 غنائم: بندقية + ذخيرة + علاج');sound(660,.12);updateHud();return;}
+ toast('اقترب من صندوق الغنائم لالتقاط السلاح');
+};
+winGame=function(){started=false;paused=false;$('overlay').style.display='flex';$('crest').textContent='🏆🎯';$('title').textContent='أنت آخر ناجٍ!';$('description').textContent='فزت بالمباراة الفردية وهزمت كل المنافسين!';$('instructions').textContent='الإقصاءات: '+kills+' • أحسنت يا بطل';$('start').textContent='العب مرة أخرى';sound(880,.35,'triangle');};
+die=function(){started=false;paused=false;$('overlay').style.display='flex';$('crest').textContent='☠️';$('title').textContent='انتهت المباراة';$('description').textContent='تم إقصاؤك من ساحة المعركة. اجمع غنائم أسرع وابقَ داخل المنطقة الآمنة.';$('instructions').textContent='الإقصاءات: '+kills+' • حاول مرة أخرى';$('start').textContent='إعادة المباراة';};
+step=function(dt){
+ if(!started||paused)return;time+=dt;matchTime=Math.max(0,matchTime-dt);zoneRadius=Math.max(3,19-(180-matchTime)*.088);
+ let mx=move.x+(keys.ArrowRight?1:0)-(keys.ArrowLeft?1:0),mz=move.z+(keys.ArrowDown?1:0)-(keys.ArrowUp?1:0),len=Math.hypot(mx,mz);
+ if(len>1){mx/=len;mz/=len;}if(Math.hypot(mx,mz)>.08){const l=Math.hypot(mx,mz);facing={x:mx/l,z:mz/l};}
+ const speed=dashTime>0?13:4.9;player.x=Math.max(-7.2,Math.min(7.2,player.x+mx*dt*speed));player.z=Math.max(-27.2,Math.min(7.5,player.z+mz*dt*speed));
+ potions.forEach(o=>{if(!o.got&&Math.hypot(o.x-player.x,o.z-player.z)<1.1){o.got=true;const heal=Math.min(35,100-player.hp);player.hp+=heal;toast('🧪 علاج +'+heal);updateHud();}});
+ enemies.forEach(e=>{if(e.hp<=0)return;e.cool-=dt;e.hit=Math.max(0,e.hit-dt);const dx=player.x-e.x,dz=player.z-e.z,d=Math.hypot(dx,dz);if(d<12&&d>1.2){const v=e.speed*dt;e.x+=dx/d*v*.65;e.z+=dz/d*v*.65;}if(d<9&&e.cool<=0&&invul<=0){e.cool=1.2+Math.random()*.8;player.hp=Math.max(0,player.hp-(e.type==='brute'?11:7));invul=.35;toast('🔫 خصم أطلق عليك!');updateHud();}});
+ if(Math.hypot(player.x,player.z+10)>zoneRadius&&invul<=0)player.hp=Math.max(0,player.hp-5*dt);
+ if(attackCd>0)attackCd-=dt;if(dashCd>0)dashCd-=dt;if(dashTime>0)dashTime-=dt;if(invul>0)invul-=dt;if(swing>0)swing-=dt;
+ if(player.hp<=0){die();return;}if(enemies.every(e=>e.hp<=0)||matchTime<=0){winGame();return;}updateHud();
+};
+startGame=function(){$('overlay').style.display='none';player={x:0,z:5,hp:100};coins=0;gems=0;kills=0;started=true;paused=false;spawnLevel();updateHud();toast('🎯 بدأت المباراة! اهزم الـ 12 منافسًا');};
+
 window.addEventListener('resize',resize);spawnLevel();updateHud();requestAnimationFrame(loop);
 })();
 </script></body></html>
