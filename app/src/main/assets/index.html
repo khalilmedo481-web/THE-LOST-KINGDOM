@@ -1,121 +1,33 @@
-
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>THE LOST KINGDOM</title>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><meta name="theme-color" content="#091321">
+<title>THE LOST KINGDOM — 3D</title>
 <style>
-*{box-sizing:border-box}
-body{margin:0;background:#101827;color:#fff;font-family:Arial;text-align:center}
-header{padding:22px 12px;background:#172b43;border-bottom:2px solid #d5a33b}
-h1{color:#f5c45c;font-size:27px;margin:8px}
-main{max-width:520px;margin:auto;padding:18px}
-.card{background:#20334b;padding:22px;border-radius:18px;margin:18px 0;box-shadow:0 5px 20px #0005}
-h2{color:#f5c45c}
-p{line-height:1.8}
-button{background:#d49b35;color:#171717;border:0;border-radius:10px;padding:13px 18px;margin:6px;font-size:16px;font-weight:bold}
-button:active{transform:scale(.97)}
-input{padding:13px;border-radius:9px;border:0;width:75%;font-size:18px;text-align:center}
-#message{color:#80e6a0;min-height:35px;font-weight:bold}
-.small{color:#b9c6d5;font-size:13px}
-</style>
-</head>
-<body>
-<header>
-<div>⚔️ 🏰 💎</div>
-<h1>THE LOST KINGDOM</h1>
-<p id="subtitle">رحلة البحث عن المملكة المفقودة</p>
-<button onclick="toggleLang()">العربية / English</button>
-</header>
-<main>
-<div class="card" id="intro">
-<h2 id="welcome">مرحباً أيها المغامر!</h2>
-<p id="story">هناك مملكة أسطورية اختفت منذ آلاف السنين. أمامك ألغاز خطيرة وكنوز مخفية. هل تستطيع اكتشاف السر؟</p>
-<button onclick="startGame()" id="start">ابدأ المغامرة 🚀</button>
-</div>
-<div class="card" id="game" hidden>
-<h2 id="level">المرحلة الأولى</h2>
-<p id="question"></p>
-<div style="font-size:55px" id="picture">🗝️</div>
-<input id="answer" placeholder="اكتب إجابتك">
-<br><br>
-<button onclick="checkAnswer()" id="submit">تحقق من الإجابة</button>
-<p id="message"></p>
-<p id="score">💎 الكنوز: 0</p>
-<p class="small" id="hint"></p>
-<button onclick="showHint()" id="hintBtn">تلميح</button>
-</div>
-<div class="card">
-<h2 id="about">عن اللعبة</h2>
-<p id="aboutText">استكشف الأسرار، حل الألغاز، واجمع الكنوز في رحلة مليئة بالمفاجآت.</p>
-</div>
-</main>
+:root{--gold:#f4c66a;--panel:#101f30ef}*{box-sizing:border-box;touch-action:manipulation}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#07111e;color:#fff;font-family:Arial,sans-serif}#game{position:fixed;inset:0;width:100%;height:100%;display:block}#shade{position:fixed;inset:0;background:linear-gradient(180deg,#06101d9c,transparent 27%,transparent 68%,#06101d99);pointer-events:none}#hud{position:fixed;inset:0;pointer-events:none;padding:12px;display:flex;flex-direction:column;justify-content:space-between}.top{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}.panel{background:var(--panel);border:1px solid #d5a64b77;border-radius:13px;padding:9px 12px;box-shadow:0 5px 18px #0007}.brand{font-weight:900;color:var(--gold);font-size:14px;letter-spacing:1px}.stats{font-size:13px;line-height:1.8;text-align:right}#healthOuter{width:112px;height:9px;border-radius:8px;background:#4b2630;overflow:hidden;margin-top:4px}#health{height:100%;width:100%;background:linear-gradient(90deg,#e34e4e,#ff9a68)}#objective{align-self:center;max-width:85%;text-align:center;font-size:13px;color:#ffe6ae;margin-top:7px}.bottom{display:flex;justify-content:space-between;align-items:end;gap:12px}#stick{width:116px;height:116px;border:2px solid #ffffff55;border-radius:50%;background:#09182799;position:relative;pointer-events:auto;touch-action:none}#nub{width:46px;height:46px;border-radius:50%;background:#e9b95bce;border:2px solid #fff9;position:absolute;left:33px;top:33px}.actions{display:flex;gap:10px;align-items:end;pointer-events:auto}.action{width:65px;height:65px;border-radius:50%;border:2px solid #ffe0a0;background:linear-gradient(145deg,#b77a2c,#5c351a);color:white;font-size:12px;font-weight:bold}.action:active{transform:scale(.94)}#attack{width:76px;height:76px;background:linear-gradient(145deg,#d74b3f,#70241f);font-size:14px}#hint{font-size:11px;color:#d6e0ec;text-align:center;margin-top:5px}#overlay{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;padding:20px;background:linear-gradient(135deg,#06101deb,#101d2bef);z-index:5}.dialog{width:min(460px,100%);padding:26px 22px;border:1px solid #d5a64b99;border-radius:22px;background:linear-gradient(145deg,#1b3046,#0b1725);box-shadow:0 20px 70px #000b;text-align:center}.crest{font-size:52px}h1{font-size:clamp(25px,7vw,36px);margin:8px 0;color:var(--gold);letter-spacing:1px}h2{color:var(--gold);margin:8px}.dialog p{line-height:1.8;color:#d6e0eb;font-size:14px}.primary{border:0;border-radius:12px;padding:14px 24px;background:linear-gradient(100deg,#f3c96c,#b77a2c);color:#201508;font-size:17px;font-weight:900;width:100%;margin-top:12px}.secondary{background:#263c52;color:#fff}#toast{position:fixed;top:23%;left:50%;transform:translateX(-50%);background:#101f30ed;border:1px solid #d5a64b;border-radius:14px;padding:12px 18px;z-index:4;text-align:center;max-width:85%;font-size:14px;display:none}#puzzle{position:fixed;inset:0;z-index:6;display:none;align-items:center;justify-content:center;padding:20px;background:#030914cc}#puzzle .dialog{max-width:360px}#answer{width:100%;padding:13px;border-radius:10px;border:1px solid #c79a4e;background:#091522;color:white;font-size:18px;text-align:center;margin-top:8px}#mini{font-size:11px;color:#c4d2e1}@media(max-height:560px){#stick{width:90px;height:90px}#nub{left:23px;top:23px}.action{width:55px;height:55px}#attack{width:65px;height:65px}#hud{padding:8px}}
+</style></head><body>
+<canvas id="game"></canvas><div id="shade"></div>
+<div id="hud"><div><div class="top"><div class="panel"><div class="brand">⚔ THE LOST KINGDOM</div><div id="healthOuter"><div id="health"></div></div><div id="hpText" class="stats">❤️ 100 / 100</div></div><div class="panel stats"><div>💎 <span id="gems">0</span></div><div>☠ <span id="kills">0</span></div><div>🏰 <span id="stage">1</span> / 3</div></div></div><div id="objective" class="panel">اجمع البلورات وافتح بوابة المملكة</div></div>
+<div class="bottom"><div><div id="stick"><div id="nub"></div></div><div id="hint">حرّك العصا للتحرك</div></div><div class="actions"><button class="action" id="interact">تفاعل</button><button class="action" id="attack">⚔<br>هجوم</button></div></div></div>
+<div id="toast"></div><div id="overlay"><div class="dialog"><div class="crest">🏰⚔️💎</div><div class="brand">AN EPIC 3D ADVENTURE</div><h1>THE LOST KINGDOM</h1><p>منذ قرون اختفت المملكة خلف بوابة سحرية. أنت آخر حارس يستطيع استعادة البلورات الثلاث، هزيمة حراس الظلام وحل لغز البوابة.</p><p id="mini">تحكم باللمس • قاتل الوحوش • اجمع البلورات • افتح البوابة</p><button class="primary" id="start">ابدأ المغامرة</button><button class="primary secondary" id="lang">English</button></div></div>
+<div id="puzzle"><div class="dialog"><div class="crest">🔮</div><h2>لغز البوابة</h2><p>شيء كلما أخذت منه كبر، فما هو؟</p><input id="answer" placeholder="اكتب الإجابة"><button class="primary" id="solve">افتح البوابة</button><button class="primary secondary" id="closePuzzle">رجوع للقتال</button></div></div>
 <script>
-let lang="ar",stage=0,treasures=0;
-const levels=[
-{q:"ما الشيء الذي له أسنان ولا يعض؟",en:"What has teeth but cannot bite?",a:"مشط",ae:"comb",hint:"تستخدمه لترتيب شعرك",pic:"🪮"},
-{q:"ما الشيء الذي كلما أخذت منه كبر؟",en:"What gets bigger the more you take away?",a:"حفرة",ae:"hole",hint:"قد تجدها في الأرض",pic:"🕳️"},
-{q:"له عين واحدة ولا يرى، ما هو؟",en:"It has one eye but cannot see. What is it?",a:"إبرة",ae:"needle",hint:"تستخدمه في الخياطة",pic:"🪡"},
-{q:"ما الشيء الذي يكتب ولا يقرأ؟",en:"What can write but cannot read?",a:"قلم",ae:"pen",hint:"تستخدمه في المدرسة",pic:"✒️"},
-{q:"أنا كنز داخل صندوق، وأحتاج مفتاحاً. ما أنا؟",en:"I am a treasure in a box and need a key. What am I?",a:"ذهب",ae:"gold",hint:"معدن ثمين لونه أصفر",pic:"💰"}
-];
-function toggleLang(){
-lang=lang==="ar"?"en":"ar";
-document.documentElement.lang=lang;
-document.documentElement.dir=lang==="ar"?"rtl":"ltr";
-document.getElementById("subtitle").textContent=lang==="ar"?"رحلة البحث عن المملكة المفقودة":"A journey to find the lost kingdom";
-document.getElementById("welcome").textContent=lang==="ar"?"مرحباً أيها المغامر!":"Welcome, Adventurer!";
-document.getElementById("story").textContent=lang==="ar"?"هناك مملكة أسطورية اختفت منذ آلاف السنين. أمامك ألغاز خطيرة وكنوز مخفية. هل تستطيع اكتشاف السر؟":"An ancient kingdom has vanished. Solve its puzzles and discover hidden treasures. Can you find the secret?";
-document.getElementById("start").textContent=lang==="ar"?"ابدأ المغامرة 🚀":"Start Adventure 🚀";
-document.getElementById("about").textContent=lang==="ar"?"عن اللعبة":"About the game";
-document.getElementById("aboutText").textContent=lang==="ar"?"استكشف الأسرار، حل الألغاز، واجمع الكنوز في رحلة مليئة بالمفاجآت.":"Explore secrets, solve puzzles and collect treasures.";
-if(!document.getElementById("game").hidden)showLevel();
-}
-function startGame(){
-stage=0;treasures=0;
-document.getElementById("intro").hidden=true;
-document.getElementById("game").hidden=false;
-showLevel();
-}
-function showLevel(){
-let l=levels[stage];
-document.getElementById("level").textContent=(lang==="ar"?"المرحلة ":"Level ")+(stage+1);
-document.getElementById("question").textContent=lang==="ar"?l.q:l.en;
-document.getElementById("picture").textContent=l.pic;
-document.getElementById("answer").value="";
-document.getElementById("message").textContent="";
-document.getElementById("score").textContent=lang==="ar"?"💎 الكنوز: "+treasures:"💎 Treasures: "+treasures;
-document.getElementById("answer").placeholder=lang==="ar"?"اكتب إجابتك":"Your answer";
-document.getElementById("submit").textContent=lang==="ar"?"تحقق من الإجابة":"Check Answer";
-document.getElementById("hintBtn").textContent=lang==="ar"?"تلميح":"Hint";
-document.getElementById("hint").textContent="";
-}
-function checkAnswer(){
-let value=document.getElementById("answer").value.trim().toLowerCase();
-let l=levels[stage];
-let correct=lang==="ar"?l.a:l.ae;
-if(value===correct.toLowerCase()){
-treasures+=100;
-if(stage===levels.length-1){
-document.getElementById("message").textContent=lang==="ar"?"🏆 مبروك! اكتشفت سر المملكة المفقودة!":"🏆 Congratulations! You found the lost kingdom!";
-document.getElementById("question").textContent=lang==="ar"?"أصبحت بطل المملكة!":"You are the kingdom's hero!";
-document.getElementById("picture").textContent="👑";
-document.getElementById("submit").textContent=lang==="ar"?"العب من جديد":"Play Again";
-document.getElementById("submit").onclick=startGame;
-}else{
-document.getElementById("message").textContent=lang==="ar"?"إجابة صحيحة! حصلت على 100 جوهرة 💎":"Correct! You earned 100 gems 💎";
-document.getElementById("submit").textContent=lang==="ar"?"المرحلة التالية":"Next Level";
-document.getElementById("submit").onclick=()=>{stage++;showLevel();document.getElementById("submit").onclick=checkAnswer;};
-}
-}else{
-document.getElementById("message").textContent=lang==="ar"?"إجابة غير صحيحة، حاول مرة أخرى!":"Not correct. Try again!";
-}
-document.getElementById("score").textContent=lang==="ar"?"💎 الكنوز: "+treasures:"💎 Treasures: "+treasures;
-}
-function showHint(){
-document.getElementById("hint").textContent=(lang==="ar"?"💡 تلميح: ":"💡 Hint: ")+levels[stage].hint;
-}
-</script>
-</body>
-</html>
+(()=>{const canvas=document.getElementById('game'),gl=canvas.getContext('webgl',{antialias:true,alpha:false});if(!gl){document.getElementById('objective').textContent='جهازك لا يدعم عرض WebGL';return;}
+const vs='attribute vec3 p; uniform mat4 mvp; uniform vec3 tint; varying vec3 c; void main(){gl_Position=mvp*vec4(p,1.); c=tint*(.72+.28*max(0.,p.y));}';const fs='precision mediump float; varying vec3 c; void main(){gl_FragColor=vec4(c,1.);}';
+function shader(type,src){let s=gl.createShader(type);gl.shaderSource(s,src);gl.compileShader(s);return s;}const prog=gl.createProgram();gl.attachShader(prog,shader(gl.VERTEX_SHADER,vs));gl.attachShader(prog,shader(gl.FRAGMENT_SHADER,fs));gl.linkProgram(prog);gl.useProgram(prog);
+const verts=new Float32Array([-1,-1,1,1,-1,1,1,1,1,-1,-1,1,1,1,1,-1,1,1,1,-1,-1,-1,-1,-1,-1,1,-1,1,-1,-1,-1,1,-1,1,1,-1,-1,1,1,1,1,1,-1,-1,1,1,1,1,-1,-1,1,-1,-1,-1,-1,-1,1,1,-1,-1,-1,-1,1,-1,1,-1,1,-1,1,1,-1,-1,1,-1,1,-1,-1,1,1,-1,1,1,-1,-1,1,1,1,1,-1,1,1,1,-1,-1,-1,-1,-1,1,-1,1,1,-1,-1,-1,-1,1,1,-1,1,-1]);const buf=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,buf);gl.bufferData(gl.ARRAY_BUFFER,verts,gl.STATIC_DRAW);const loc=gl.getAttribLocation(prog,'p');gl.enableVertexAttribArray(loc);gl.vertexAttribPointer(loc,3,gl.FLOAT,false,0,0);const mloc=gl.getUniformLocation(prog,'mvp'),cloc=gl.getUniformLocation(prog,'tint');
+function mul(a,b){let o=new Float32Array(16);for(let c=0;c<4;c++)for(let r=0;r<4;r++)o[c*4+r]=a[r]*b[c*4]+a[4+r]*b[c*4+1]+a[8+r]*b[c*4+2]+a[12+r]*b[c*4+3];return o;}function perspective(f,a,n,z){let t=1/Math.tan(f/2),o=new Float32Array(16);o[0]=t/a;o[5]=t;o[10]=(z+n)/(n-z);o[11]=-1;o[14]=2*z*n/(n-z);return o;}const sub=(a,b)=>a.map((v,i)=>v-b[i]),dot=(a,b)=>a.reduce((s,v,i)=>s+v*b[i],0),cross=(a,b)=>[a[1]*b[2]-a[2]*b[1],a[2]*b[0]-a[0]*b[2],a[0]*b[1]-a[1]*b[0]],norm=a=>{let l=Math.hypot(...a)||1;return a.map(v=>v/l)};function look(eye,center){let z=norm(sub(eye,center)),x=norm(cross([0,1,0],z)),y=cross(z,x);return new Float32Array([x[0],y[0],z[0],0,x[1],y[1],z[1],0,x[2],y[2],z[2],0,-dot(x,eye),-dot(y,eye),-dot(z,eye),1]);}function model(x,y,z,sx,sy,sz){return new Float32Array([sx,0,0,0,0,sy,0,0,0,0,sz,0,x,y,z,1]);}function box(x,y,z,sx,sy,sz,color,vp){gl.uniformMatrix4fv(mloc,false,mul(vp,model(x,y,z,sx,sy,sz)));gl.uniform3fv(cloc,color);gl.drawArrays(gl.TRIANGLES,0,36);}
+const C={grass:[.12,.27,.23],path:[.35,.29,.2],stone:[.34,.4,.47],gold:[.95,.62,.16],player:[.18,.56,.86],enemy:[.68,.16,.18],leaf:[.12,.35,.22],crystal:[.12,.85,.94],gate:[.55,.25,.78]};
+let player={x:0,z:5,hp:100},gems=0,kills=0,stage=1,started=false,enemies=[],crystals=[],trees=[],last=0,attackCooldown=0,invul=0,move={x:0,z:0},keys={};const $=id=>document.getElementById(id);
+function spawn(){enemies=[{x:-3,z:-5,hp:2},{x:3,z:-10,hp:2},{x:0,z:-18,hp:3}];crystals=[{x:-4,z:-3,got:false},{x:4,z:-12,got:false},{x:0,z:-22,got:false}];trees=[];for(let z=2;z>-27;z-=3)trees.push({x:-7,z},{x:7,z:z-1});}
+function toast(t){$('toast').textContent=t;$('toast').style.display='block';clearTimeout(toast.t);toast.t=setTimeout(()=>$('toast').style.display='none',1800);}function updateHud(){$('gems').textContent=gems;$('kills').textContent=kills;$('stage').textContent=stage;$('health').style.width=player.hp+'%';$('hpText').textContent='❤️ '+player.hp+' / 100';$('objective').textContent=gems<3?'اجمع البلورات السحرية: '+gems+' / 3':'اهزم الحراس وافتح بوابة المملكة';}
+function resize(){let d=Math.min(devicePixelRatio||1,1.5),w=Math.floor(innerWidth*d),h=Math.floor(innerHeight*d);if(canvas.width!==w||canvas.height!==h){canvas.width=w;canvas.height=h;gl.viewport(0,0,w,h);}}
+function render(){resize();gl.enable(gl.DEPTH_TEST);gl.clearColor(.035,.075,.12,1);gl.clear(gl.COLOR_BUFFER_BIT|gl.DEPTH_BUFFER_BIT);let proj=perspective(1.02,canvas.width/canvas.height,.1,90),eye=[player.x,5.4,player.z+8.5],view=look(eye,[player.x,0,player.z-3]),vp=mul(proj,view);box(0,-.65,-10,9,.5,19,C.grass,vp);for(let z=2;z>-29;z-=4)box(0,-.37,z,2.3,.08,2.2,C.path,vp);for(let x of [-9,9])box(x,1,-10,.5,2,21,C.stone,vp);trees.forEach(t=>{box(t.x,.1,t.z,.35,1.2,.35,[.3,.18,.1],vp);box(t.x,1.55,t.z,.95,1.1,.95,C.leaf,vp);});box(-1,1,-27,.35,1.4,.4,C.stone,vp);box(1,1,-27,.35,1.4,.4,C.stone,vp);box(0,2.3,-27,1.8,.35,.5,C.gate,vp);crystals.forEach(c=>{if(!c.got){box(c.x,.25,c.z,.35,.65,.35,C.crystal,vp);box(c.x,.95,c.z,.18,.25,.18,C.gold,vp);}});enemies.forEach(e=>{if(e.hp>0){box(e.x,.05,e.z,.55,.75,.5,C.enemy,vp);box(e.x,.9,e.z,.3,.22,.3,[.95,.25,.18],vp);}});box(player.x,.05,player.z,.42,.78,.42,C.player,vp);box(player.x,.93,player.z,.28,.25,.28,[.9,.68,.45],vp);}
+function attack(){if(!started||attackCooldown>0)return;attackCooldown=.55;let hit=false;enemies.forEach(e=>{if(e.hp>0&&Math.hypot(e.x-player.x,e.z-player.z)<2.5){e.hp--;hit=true;if(e.hp<=0){kills++;gems++;toast('هزمت حارس الظلام! + جوهرة 💎');}else toast('ضربة قوية!');}});if(!hit)toast('اقترب من الوحش أولاً');updateHud();}
+function interact(){if(!started)return;let c=crystals.find(c=>!c.got&&Math.hypot(c.x-player.x,c.z-player.z)<2);if(c){c.got=true;gems++;toast('حصلت على بلورة سحرية 💎');updateHud();return;}if(Math.hypot(player.x,player.z+27)<3){if(gems>=3&&enemies.every(e=>e.hp<=0))$('puzzle').style.display='flex';else toast('اجمع 3 بلورات واهزم كل الحراس أولاً');return;}toast('لا يوجد شيء للتفاعل هنا');}
+function step(dt){if(!started)return;let mx=move.x+(keys.ArrowRight?1:0)-(keys.ArrowLeft?1:0),mz=move.z+(keys.ArrowDown?1:0)-(keys.ArrowUp?1:0),l=Math.hypot(mx,mz);if(l>1){mx/=l;mz/=l;}player.x=Math.max(-7,Math.min(7,player.x+mx*dt*5));player.z=Math.max(-25,Math.min(8,player.z+mz*dt*5));enemies.forEach(e=>{if(e.hp>0){let dx=player.x-e.x,dz=player.z-e.z,d=Math.hypot(dx,dz);if(d>1.1&&d<13){e.x+=dx/d*dt*.85;e.z+=dz/d*dt*.85;}if(d<1.25&&invul<=0){player.hp=Math.max(0,player.hp-12);invul=.9;updateHud();if(player.hp<=0){started=false;$('overlay').style.display='flex';$('overlay').querySelector('h1').textContent='انتهت المغامرة';$('overlay').querySelector('p').textContent='سقط الحارس في المعركة. حاول مرة أخرى واستعد المملكة.';$('start').textContent='حاول من جديد';}}}});if(attackCooldown>0)attackCooldown-=dt;if(invul>0)invul-=dt;}
+function loop(t){let dt=Math.min((t-last)/1000||0,.04);last=t;step(dt);render();requestAnimationFrame(loop);}
+$('start').onclick=()=>{$('overlay').style.display='none';player={x:0,z:5,hp:100};gems=0;kills=0;stage=1;started=true;spawn();updateHud();toast('المهمة بدأت! ابحث عن البلورات');};$('attack').onpointerdown=e=>{e.preventDefault();attack();};$('interact').onpointerdown=e=>{e.preventDefault();interact();};$('solve').onclick=()=>{if(['حفرة','الحفرة','hole','a hole'].includes($('answer').value.trim().toLowerCase())){$('puzzle').style.display='none';$('overlay').style.display='flex';$('overlay').querySelector('h1').textContent='تم استرداد المملكة!';$('overlay').querySelector('p').textContent='🏆 أصبحت حارس المملكة الأسطوري! البلورات عادت إلى عرشها.';$('start').textContent='العب مرة أخرى';started=false;}else toast('إجابة غير صحيحة، حاول مرة أخرى');};$('closePuzzle').onclick=()=>$('puzzle').style.display='none';$('lang').onclick=()=>{let en=document.documentElement.lang==='ar';document.documentElement.lang=en?'en':'ar';document.documentElement.dir=en?'ltr':'rtl';$('lang').textContent=en?'العربية':'English';$('start').textContent=en?'Begin Adventure':'ابدأ المغامرة';};
+window.addEventListener('keydown',e=>{keys[e.key]=true;if(e.key===' '){e.preventDefault();attack();}if(e.key==='e'||e.key==='Enter')interact();});window.addEventListener('keyup',e=>keys[e.key]=false);const stick=$('stick'),nub=$('nub');let active=false;function setStick(e){let r=stick.getBoundingClientRect(),dx=e.clientX-(r.left+r.width/2),dy=e.clientY-(r.top+r.height/2),max=r.width*.34,len=Math.hypot(dx,dy),k=Math.min(1,max/(len||1));dx*=k;dy*=k;nub.style.transform='translate('+dx+'px,'+dy+'px)';move.x=dx/max;move.z=dy/max;}stick.onpointerdown=e=>{active=true;stick.setPointerCapture(e.pointerId);setStick(e);};stick.onpointermove=e=>{if(active)setStick(e);};stick.onpointerup=stick.onpointercancel=()=>{active=false;move={x:0,z:0};nub.style.transform='';};window.addEventListener('resize',resize);spawn();updateHud();requestAnimationFrame(loop);
+})();
+</script></body></html>
