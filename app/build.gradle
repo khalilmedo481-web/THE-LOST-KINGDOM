@@ -8,17 +8,18 @@ android {
 
     defaultConfig {
         // Separate package so this 3D test build can install beside an older build.
-        applicationId 'com.lostkingdom.game3d'
+        applicationId 'com.lostkingdom.game3d.solo'
         minSdk 21
         targetSdk 28
-        versionCode 2
-        versionName '2.0'
+        versionCode 3
+        versionName '2.1'
     }
 
     buildTypes {
         debug {
             debuggable true
             minifyEnabled false
+            signingConfig signingConfigs.debug
         }
     }
 
