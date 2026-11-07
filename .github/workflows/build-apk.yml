@@ -78,3 +78,5 @@ jobs:
       - name: Print direct download link
         run: |
           echo "APK: https://github.com/${{ github.repository }}/releases/download/city-runner-build-${{ github.run_number }}/app-debug.apk" >> "$GITHUB_STEP_SUMMARY"
+
+# Rebuild CITY RUNNER after visual upgrade
