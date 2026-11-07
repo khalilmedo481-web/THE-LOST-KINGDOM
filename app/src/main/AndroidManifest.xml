@@ -3,7 +3,7 @@
     <uses-feature android:glEsVersion="0x00020000" android:required="false" />
     <application
         android:theme="@android:style/Theme.Material.Light.NoActionBar"
-        android:label="THE LOST KINGDOM"
+        android:label="CITY RUNNER"
         android:usesCleartextTraffic="false"
         android:allowBackup="false"
         android:hardwareAccelerated="true"
