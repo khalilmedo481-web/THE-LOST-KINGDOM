@@ -68,8 +68,8 @@ function model(x,y,z,sx,sy,sz,rot=0){const c=Math.cos(rot),s=Math.sin(rot);retur
 let cubeDraws=0;
 function draw(mesh,matrix,color,count){gl.uniformMatrix4fv(mvpLoc,false,matrix);gl.uniform3fv(tintLoc,color);gl.drawArrays(gl.TRIANGLES,0,count);}
 let vp;
-function box(x,y,z,sx,sy,sz,color,rot=0){draw(cubeBuf,mul(vp,model(x,y,z,sx,sy,sz,rot)),color,36);}
-function orb(x,y,z,sx,sy,sz,color,rot=0){draw(sphereBuf,mul(vp,model(x,y,z,sx,sy,sz,rot)),color,sphere.length/3);}
+function box(x,y,z,sx,sy,sz,color,rot=0){bindBuffer(cubeBuf);draw(cubeBuf,mul(vp,model(x,y,z,sx,sy,sz,rot)),color,36);}
+function orb(x,y,z,sx,sy,sz,color,rot=0){bindBuffer(sphereBuf);draw(sphereBuf,mul(vp,model(x,y,z,sx,sy,sz,rot)),color,sphere.length/3);}
 const palettes=[
  {name:'غابة الرماد',sky:[.055,.105,.15],ground:[.12,.24,.2],path:[.34,.27,.18],rock:[.34,.39,.42],leaf:[.10,.30,.19],glow:[.12,.82,.92],gate:[.34,.6,.78]},
  {name:'أطلال الشمس',sky:[.16,.105,.07],ground:[.31,.22,.12],path:[.48,.32,.17],rock:[.50,.39,.25],leaf:[.30,.28,.12],glow:[1,.60,.15],gate:[.92,.42,.12]},
