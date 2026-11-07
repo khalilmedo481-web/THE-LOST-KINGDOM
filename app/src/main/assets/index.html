@@ -19,10 +19,28 @@ for(let l=-1;l<=1;l++){let a=project(0,l),b=project(1,l);ctx.strokeStyle='#dce6e
 for(let i=0;i<18;i++){let z=((i/18+dist*.00075)%1),p=project(z,0),width=W*(.04+.75*Math.pow(1-z,1.2));ctx.strokeStyle='#c4b6a0';ctx.lineWidth=3+z*5;ctx.beginPath();ctx.moveTo(p.x-width/2,p.y);ctx.lineTo(p.x+width/2,p.y);ctx.stroke()}
 }
 function drawCoin(o){let p=project(o.z,o.l),r=11*p.s;ctx.save();ctx.translate(p.x,p.y-25*p.s);ctx.scale(.72+Math.abs(Math.sin(dist*.012+o.z*9))*.28,1);ctx.fillStyle='#ffb51b';ctx.strokeStyle='#fff18a';ctx.lineWidth=3*p.s;ctx.beginPath();ctx.arc(0,0,r,0,7);ctx.fill();ctx.stroke();ctx.fillStyle='#fff3a4';ctx.font='bold '+(r*1.15)+'px Arial';ctx.textAlign='center';ctx.fillText('$',0,r*.38);ctx.restore()}
-function drawObstacle(o){let p=project(o.z,o.l),s=p.s,w=58*s,h=60*s,x=p.x-w/2,y=p.y-h;
-if(o.type==='train'){rounded(x-13*s,y-75*s,w+26*s,h+75*s,10*s,'#147b91');rounded(x-7*s,y-67*s,w+14*s,31*s,7*s,'#a5e9f1');rounded(x-7*s,y-27*s,w+14*s,25*s,5*s,'#263b53');ctx.fillStyle='#f6d04e';ctx.fillRect(x-13*s,y-6*s, w+26*s,6*s)}
-else if(o.type==='bar'){rounded(x-10*s,y+18*s,w+20*s,18*s,5*s,'#ff9c24');ctx.fillStyle='#fff1c7';ctx.fillRect(x-4*s,y+20*s,9*s,14*s);ctx.fillRect(x+20*s,y+20*s,9*s,14*s)}
-else{rounded(x,y+20*s,w,h*.65,7*s,'#d65a36');rounded(x+8*s,y+27*s,w-16*s,14*s,4*s,'#ffce68');ctx.fillStyle='#6b3028';ctx.fillRect(x+9*s,y+h*.6,w-18*s,7*s)}
+function drawObstacle(o){let p=project(o.z,o.l),s=p.s,w=76*s,h=88*s,x=p.x-w/2,y=p.y-h;
+if(o.type==='train'){
+// Large colorful subway train with front windshield, lights and metal details
+ctx.save();ctx.shadowColor='#061b2b';ctx.shadowBlur=18*s;
+rounded(x-9*s,y-96*s,w+18*s,h+96*s,15*s,'#075b83');ctx.restore();
+rounded(x-5*s,y-88*s,w+10*s,32*s,9*s,'#19b5d2');
+rounded(x+3*s,y-81*s,w-6*s,21*s,5*s,'#b8f5ff');
+ctx.fillStyle='#092b46';ctx.fillRect(x+8*s,y-77*s,13*s,13*s);ctx.fillRect(x+29*s,y-77*s,13*s,13*s);
+rounded(x-5*s,y-48*s,w+10*s,44*s,6*s,'#e8f5ef');
+ctx.fillStyle='#08779a';ctx.fillRect(x-5*s,y-25*s,w+10*s,7*s);
+ctx.fillStyle='#ffdb42';ctx.fillRect(x-9*s,y-8*s,13*s,8*s);ctx.fillRect(x+w-4*s,y-8*s,13*s,8*s);
+ctx.fillStyle='#fff5b0';ctx.beginPath();ctx.arc(x+12*s,y-4*s,4*s,0,7);ctx.arc(x+w-12*s,y-4*s,4*s,0,7);ctx.fill();
+ctx.fillStyle='#17384c';ctx.fillRect(x+8*s,y+2*s,13*s,12*s);ctx.fillRect(x+w-21*s,y+2*s,13*s,12*s);
+}else if(o.type==='bar'){
+rounded(x-14*s,y+15*s,w+28*s,18*s,7*s,'#ff8b18');
+ctx.fillStyle='#fff4d0';for(let q=0;q<5;q++)ctx.fillRect(x-6*s+q*18*s,y+18*s,8*s,12*s);
+ctx.fillStyle='#273b50';ctx.fillRect(x-9*s,y+31*s,7*s,28*s);ctx.fillRect(x+w+2*s,y+31*s,7*s,28*s);
+}else{
+rounded(x,y+10*s,w,h*.72,9*s,'#e85a32');rounded(x+7*s,y+18*s,w-14*s,19*s,5*s,'#ffca52');
+ctx.fillStyle='#a6372b';ctx.fillRect(x+8*s,y+43*s,w-16*s,5*s);
+ctx.fillStyle='#fff0c6';ctx.font='bold '+(12*s)+'px Arial';ctx.textAlign='center';ctx.fillText('DANGER',p.x,y+61*s);
+}
 }
 function drawRunner(){let p=project(0,lane),x=p.x,y=ground()-10;let j=jump>0?Math.sin((1-jump)*Math.PI)*H*.19:0;y-=j;let s=Math.min(W,H)/420;ctx.save();ctx.translate(x,y);ctx.scale(s,s);if(slide>0){ctx.rotate(-.12);rounded(-23, -22,46,26,12,'#12a9c5');ctx.fillStyle='#f0b98d';ctx.beginPath();ctx.arc(20,-22,12,0,7);ctx.fill()}else{ctx.fillStyle='#101a2d';ctx.beginPath();ctx.ellipse(-10,0,10,5,0,0,7);ctx.ellipse(12,0,10,5,0,0,7);ctx.fill();rounded(-17,-48,34,43,10,'#10a6c6');ctx.fillStyle='#e9a77b';ctx.beginPath();ctx.arc(0,-62,15,0,7);ctx.fill();rounded(-16,-79,32,8,5,'#f4b72f');ctx.fillStyle='#172b45';ctx.fillRect(-11,-65,7,4);ctx.fillRect(4,-65,7,4);ctx.strokeStyle='#f3c2a0';ctx.lineWidth=8;ctx.beginPath();ctx.moveTo(-15,-39);ctx.lineTo(-25,-22+Math.sin(dist*.03)*4);ctx.moveTo(15,-39);ctx.lineTo(24,-22-Math.sin(dist*.03)*4);ctx.stroke();ctx.fillStyle='#263c68';ctx.fillRect(-13,-9,11,10);ctx.fillRect(3,-9,11,10)}ctx.restore()}
 function frame(t){let dt=Math.min((t-last)/16||1,2.5);last=t;if(running){dist+=dt*speed;score+=Math.floor(dt*speed*.22);speed=1+Math.min(2.2,score/1800);spawn-=dt;if(spawn<=0){let l=Math.floor(Math.random()*3)-1,types=['train','bar','box'];items.push({l,z:1,type:types[Math.floor(Math.random()*types.length)]});if(Math.random()<.7)for(let k=0;k<4;k++)items.push({l,z:1-k*.075,type:'coin'});spawn=Math.max(24,65-speed*12)}if(jump>0)jump=Math.max(0,jump-dt*.025);if(slide>0)slide=Math.max(0,slide-dt*.025);items.forEach(o=>o.z-=dt*(.006+speed*.0015));items=items.filter(o=>o.z>-.08);for(let o of items){if(o.z<.085&&o.z>-.025&&o.l===lane){if(o.type==='coin'){coins++;o.z=-1;flash=12}else if((o.type==='bar'&&jump<=0)||(o.type==='box'&&slide<=0)||(o.type==='train')){end();break}}} }
