@@ -1,0 +1,121 @@
+
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>THE LOST KINGDOM</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#101827;color:#fff;font-family:Arial;text-align:center}
+header{padding:22px 12px;background:#172b43;border-bottom:2px solid #d5a33b}
+h1{color:#f5c45c;font-size:27px;margin:8px}
+main{max-width:520px;margin:auto;padding:18px}
+.card{background:#20334b;padding:22px;border-radius:18px;margin:18px 0;box-shadow:0 5px 20px #0005}
+h2{color:#f5c45c}
+p{line-height:1.8}
+button{background:#d49b35;color:#171717;border:0;border-radius:10px;padding:13px 18px;margin:6px;font-size:16px;font-weight:bold}
+button:active{transform:scale(.97)}
+input{padding:13px;border-radius:9px;border:0;width:75%;font-size:18px;text-align:center}
+#message{color:#80e6a0;min-height:35px;font-weight:bold}
+.small{color:#b9c6d5;font-size:13px}
+</style>
+</head>
+<body>
+<header>
+<div>⚔️ 🏰 💎</div>
+<h1>THE LOST KINGDOM</h1>
+<p id="subtitle">رحلة البحث عن المملكة المفقودة</p>
+<button onclick="toggleLang()">العربية / English</button>
+</header>
+<main>
+<div class="card" id="intro">
+<h2 id="welcome">مرحباً أيها المغامر!</h2>
+<p id="story">هناك مملكة أسطورية اختفت منذ آلاف السنين. أمامك ألغاز خطيرة وكنوز مخفية. هل تستطيع اكتشاف السر؟</p>
+<button onclick="startGame()" id="start">ابدأ المغامرة 🚀</button>
+</div>
+<div class="card" id="game" hidden>
+<h2 id="level">المرحلة الأولى</h2>
+<p id="question"></p>
+<div style="font-size:55px" id="picture">🗝️</div>
+<input id="answer" placeholder="اكتب إجابتك">
+<br><br>
+<button onclick="checkAnswer()" id="submit">تحقق من الإجابة</button>
+<p id="message"></p>
+<p id="score">💎 الكنوز: 0</p>
+<p class="small" id="hint"></p>
+<button onclick="showHint()" id="hintBtn">تلميح</button>
+</div>
+<div class="card">
+<h2 id="about">عن اللعبة</h2>
+<p id="aboutText">استكشف الأسرار، حل الألغاز، واجمع الكنوز في رحلة مليئة بالمفاجآت.</p>
+</div>
+</main>
+<script>
+let lang="ar",stage=0,treasures=0;
+const levels=[
+{q:"ما الشيء الذي له أسنان ولا يعض؟",en:"What has teeth but cannot bite?",a:"مشط",ae:"comb",hint:"تستخدمه لترتيب شعرك",pic:"🪮"},
+{q:"ما الشيء الذي كلما أخذت منه كبر؟",en:"What gets bigger the more you take away?",a:"حفرة",ae:"hole",hint:"قد تجدها في الأرض",pic:"🕳️"},
+{q:"له عين واحدة ولا يرى، ما هو؟",en:"It has one eye but cannot see. What is it?",a:"إبرة",ae:"needle",hint:"تستخدمه في الخياطة",pic:"🪡"},
+{q:"ما الشيء الذي يكتب ولا يقرأ؟",en:"What can write but cannot read?",a:"قلم",ae:"pen",hint:"تستخدمه في المدرسة",pic:"✒️"},
+{q:"أنا كنز داخل صندوق، وأحتاج مفتاحاً. ما أنا؟",en:"I am a treasure in a box and need a key. What am I?",a:"ذهب",ae:"gold",hint:"معدن ثمين لونه أصفر",pic:"💰"}
+];
+function toggleLang(){
+lang=lang==="ar"?"en":"ar";
+document.documentElement.lang=lang;
+document.documentElement.dir=lang==="ar"?"rtl":"ltr";
+document.getElementById("subtitle").textContent=lang==="ar"?"رحلة البحث عن المملكة المفقودة":"A journey to find the lost kingdom";
+document.getElementById("welcome").textContent=lang==="ar"?"مرحباً أيها المغامر!":"Welcome, Adventurer!";
+document.getElementById("story").textContent=lang==="ar"?"هناك مملكة أسطورية اختفت منذ آلاف السنين. أمامك ألغاز خطيرة وكنوز مخفية. هل تستطيع اكتشاف السر؟":"An ancient kingdom has vanished. Solve its puzzles and discover hidden treasures. Can you find the secret?";
+document.getElementById("start").textContent=lang==="ar"?"ابدأ المغامرة 🚀":"Start Adventure 🚀";
+document.getElementById("about").textContent=lang==="ar"?"عن اللعبة":"About the game";
+document.getElementById("aboutText").textContent=lang==="ar"?"استكشف الأسرار، حل الألغاز، واجمع الكنوز في رحلة مليئة بالمفاجآت.":"Explore secrets, solve puzzles and collect treasures.";
+if(!document.getElementById("game").hidden)showLevel();
+}
+function startGame(){
+stage=0;treasures=0;
+document.getElementById("intro").hidden=true;
+document.getElementById("game").hidden=false;
+showLevel();
+}
+function showLevel(){
+let l=levels[stage];
+document.getElementById("level").textContent=(lang==="ar"?"المرحلة ":"Level ")+(stage+1);
+document.getElementById("question").textContent=lang==="ar"?l.q:l.en;
+document.getElementById("picture").textContent=l.pic;
+document.getElementById("answer").value="";
+document.getElementById("message").textContent="";
+document.getElementById("score").textContent=lang==="ar"?"💎 الكنوز: "+treasures:"💎 Treasures: "+treasures;
+document.getElementById("answer").placeholder=lang==="ar"?"اكتب إجابتك":"Your answer";
+document.getElementById("submit").textContent=lang==="ar"?"تحقق من الإجابة":"Check Answer";
+document.getElementById("hintBtn").textContent=lang==="ar"?"تلميح":"Hint";
+document.getElementById("hint").textContent="";
+}
+function checkAnswer(){
+let value=document.getElementById("answer").value.trim().toLowerCase();
+let l=levels[stage];
+let correct=lang==="ar"?l.a:l.ae;
+if(value===correct.toLowerCase()){
+treasures+=100;
+if(stage===levels.length-1){
+document.getElementById("message").textContent=lang==="ar"?"🏆 مبروك! اكتشفت سر المملكة المفقودة!":"🏆 Congratulations! You found the lost kingdom!";
+document.getElementById("question").textContent=lang==="ar"?"أصبحت بطل المملكة!":"You are the kingdom's hero!";
+document.getElementById("picture").textContent="👑";
+document.getElementById("submit").textContent=lang==="ar"?"العب من جديد":"Play Again";
+document.getElementById("submit").onclick=startGame;
+}else{
+document.getElementById("message").textContent=lang==="ar"?"إجابة صحيحة! حصلت على 100 جوهرة 💎":"Correct! You earned 100 gems 💎";
+document.getElementById("submit").textContent=lang==="ar"?"المرحلة التالية":"Next Level";
+document.getElementById("submit").onclick=()=>{stage++;showLevel();document.getElementById("submit").onclick=checkAnswer;};
+}
+}else{
+document.getElementById("message").textContent=lang==="ar"?"إجابة غير صحيحة، حاول مرة أخرى!":"Not correct. Try again!";
+}
+document.getElementById("score").textContent=lang==="ar"?"💎 الكنوز: "+treasures:"💎 Treasures: "+treasures;
+}
+function showHint(){
+document.getElementById("hint").textContent=(lang==="ar"?"💡 تلميح: ":"💡 Hint: ")+levels[stage].hint;
+}
+</script>
+</body>
+</html>
