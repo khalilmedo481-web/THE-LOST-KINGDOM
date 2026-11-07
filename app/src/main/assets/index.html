@@ -1,200 +1,37 @@
 <!doctype html>
-<html lang="ar" dir="rtl">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
-<meta name="theme-color" content="#08111c">
-<title>THE LOST KINGDOM — SOLO BATTLE ROYALE</title>
+<html lang="ar"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><meta name="theme-color" content="#071426"><title>CITY RUNNER</title>
 <style>
-:root{--gold:#f6ca72;--glass:rgba(8,17,29,.82);--line:rgba(246,202,114,.48)}
-*{box-sizing:border-box;touch-action:manipulation}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#08111c;color:#fff;font-family:Arial,Tahoma,sans-serif;user-select:none;-webkit-user-select:none}
-#game{position:fixed;inset:0;width:100%;height:100%;display:block}
-#shade{position:fixed;inset:0;pointer-events:none;background:linear-gradient(180deg,rgba(3,9,18,.72),transparent 24%,transparent 66%,rgba(3,9,18,.7))}
-#hud{position:fixed;inset:0;padding:calc(10px + env(safe-area-inset-top)) 11px calc(10px + env(safe-area-inset-bottom));display:flex;flex-direction:column;justify-content:space-between;pointer-events:none}
-.top{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}.glass{background:var(--glass);border:1px solid var(--line);border-radius:13px;padding:8px 11px;box-shadow:0 7px 22px #0008;backdrop-filter:blur(8px)}
-.brand{font-size:12px;font-weight:900;letter-spacing:1.1px;color:var(--gold)}.healthWrap{width:116px;height:8px;border-radius:8px;background:#55262c;margin-top:6px;overflow:hidden}.healthFill{height:100%;width:100%;background:linear-gradient(90deg,#e34345,#ffb36b);transition:width .18s}.small{font-size:12px;line-height:1.8}.right{text-align:right}.stats{display:flex;gap:10px;align-items:center;font-size:12px}.stageLabel{color:var(--gold);font-weight:bold}
-#mission{align-self:center;max-width:min(86%,460px);text-align:center;font-size:12px;line-height:1.55;padding:7px 13px;margin-top:8px}
-.bottom{display:flex;justify-content:space-between;align-items:flex-end;gap:8px}.controlSide{display:flex;align-items:flex-end;gap:9px}.stick{width:112px;height:112px;border:2px solid #ffffff66;border-radius:50%;background:#071523a8;position:relative;pointer-events:auto;touch-action:none;box-shadow:0 5px 20px #0006}.nub{position:absolute;width:44px;height:44px;left:32px;top:32px;border-radius:50%;border:2px solid #fff9;background:linear-gradient(145deg,#f6d98a,#a66b2d);box-shadow:0 2px 8px #0007}
-.actions{display:flex;align-items:flex-end;gap:8px;pointer-events:auto}.action{width:58px;height:58px;border-radius:50%;border:2px solid #f9dba0;background:linear-gradient(145deg,#a97835,#513017);color:#fff;font-weight:bold;font-size:11px;box-shadow:0 5px 14px #0008}.action:active{transform:scale(.93)}#attack{width:72px;height:72px;font-size:14px;background:linear-gradient(145deg,#e35c49,#70241f)}#dash{background:linear-gradient(145deg,#398fbd,#17405e)}#interact{background:linear-gradient(145deg,#bd923d,#634319)}
-#topButtons{display:flex;gap:6px;pointer-events:auto;margin-top:6px} .tiny{border:1px solid #fff5;background:#071523bd;color:#fff;border-radius:9px;padding:5px 8px;font-size:11px}
-#toast{position:fixed;top:23%;left:50%;transform:translateX(-50%);z-index:4;display:none;max-width:84%;text-align:center;border:1px solid var(--gold);border-radius:12px;padding:10px 15px;background:#0a1929ed;font-size:13px;box-shadow:0 8px 28px #0008}
-#overlay{position:fixed;inset:0;z-index:5;display:flex;align-items:center;justify-content:center;padding:18px;background:radial-gradient(ellipse at 50% 35%,#203b52eF,#06101ded 70%)}
-.dialog{width:min(460px,100%);max-height:94%;overflow:auto;text-align:center;padding:22px 20px;border-radius:22px;border:1px solid #d7ad5f99;background:linear-gradient(145deg,#20384e,#0b1725);box-shadow:0 22px 75px #000c}
-.crest{font-size:48px;filter:drop-shadow(0 5px 10px #0008)}h1{font-size:clamp(25px,7vw,37px);margin:7px 0;color:var(--gold);letter-spacing:.5px}h2{color:var(--gold);margin:8px}.dialog p{font-size:14px;line-height:1.8;color:#d5e0eb;margin:9px 0}.sub{color:#9eafc0!important;font-size:11px!important}
-.primary{width:100%;padding:14px 16px;margin-top:10px;border:0;border-radius:12px;background:linear-gradient(100deg,#ffe09a,#bd8137);color:#241608;font-weight:900;font-size:16px}.secondary{background:#29445d;color:#fff;border:1px solid #fff3}
-#bossWrap{position:fixed;top:13%;left:50%;transform:translateX(-50%);width:min(62%,330px);display:none;text-align:center;pointer-events:none;text-shadow:0 2px 5px #000}
-#bossName{font-size:11px;color:#ffd6d1;margin-bottom:4px}#bossBar{height:8px;background:#421f26;border:1px solid #ffb0a077;border-radius:9px;overflow:hidden}#bossFill{height:100%;width:100%;background:linear-gradient(90deg,#b62531,#ff795d)}
-@media(max-height:570px){.stick{width:86px;height:86px}.nub{left:22px;top:22px}.action{width:48px;height:48px}#attack{width:61px;height:61px}.glass{padding:6px 8px}#hud{padding-top:5px;padding-bottom:5px}}
-</style></head>
-<body>
-<canvas id="game"></canvas><div id="shade"></div>
-<div id="hud">
- <div><div class="top">
-  <div class="glass"><div class="brand">🎯 THE LOST KINGDOM • SOLO</div><div class="healthWrap"><div id="health" class="healthFill"></div></div><div id="hpText" class="small">❤️ 100 / 100</div><div id="topButtons"><button class="tiny" id="pause">Ⅱ إيقاف</button><button class="tiny" id="sound">♪ صوت</button></div></div>
-  <div class="glass right"><div class="stageLabel" id="stageName">باتل رويال فردي</div><div class="stats"><span>👥 <b id="alive">13</b></span><span>☠ <b id="kills">0</b></span></div><div class="small">🔫 <span id="ammo">30</span>　⏱ <span id="clock">03:00</span></div></div>
- </div><div id="mission" class="glass">ابقَ داخل المنطقة الآمنة • اجمع السلاح • كن آخر ناجٍ</div></div>
- <div class="bottom">
-  <div class="controlSide"><div><div class="stick" id="stick"><div class="nub" id="nub"></div></div></div></div>
-  <div class="actions"><button class="action" id="interact">تفاعل</button><button class="action" id="dash">اندفاع</button><button class="action" id="attack">🔫<br>إطلاق</button></div>
- </div>
-</div>
-<div id="bossWrap"><div id="bossName">حارس العرش</div><div id="bossBar"><div id="bossFill"></div></div></div>
-<div id="toast"></div>
-<div id="overlay"><div class="dialog">
- <div class="crest" id="crest">🏰⚔️💎</div><div class="brand">SOLO BATTLE ROYALE</div><h1 id="title">THE LOST KINGDOM</h1>
- <p id="description">انزل إلى ساحة المعركة وحدك. اجمع الأسلحة والذخيرة والعلاج، واهزم 12 خصمًا يتحكم فيهم الذكاء الاصطناعي، وابقَ آخر ناجٍ!</p>
- <p class="sub" id="instructions">تحكم باللمس • إطلاق نار • اندفاع • منطقة آمنة تتقلص • صناديق غنائم</p>
- <button class="primary" id="start">ابدأ المباراة</button><button class="primary secondary" id="language">English</button>
-</div></div>
+*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#071426;font-family:system-ui,Arial;touch-action:none}canvas{display:block;width:100%;height:100%;touch-action:none}
+#hud{position:absolute;inset:0;pointer-events:none;color:white;text-shadow:0 2px 5px #001}#top{display:flex;justify-content:space-between;padding:16px;font-weight:900;font-size:clamp(16px,4vw,23px)}.pill{background:#06172bc9;border:1px solid #ffffff35;border-radius:18px;padding:8px 14px;backdrop-filter:blur(6px)}#center{position:absolute;left:50%;top:48%;transform:translate(-50%,-50%);width:min(88%,430px);text-align:center;pointer-events:auto;background:linear-gradient(155deg,#102d50ed,#071426ed);border:2px solid #64eaff88;border-radius:26px;padding:25px 20px;box-shadow:0 18px 70px #0009}h1{font-size:clamp(35px,9vw,58px);line-height:1;margin:5px 0 12px;color:#ffd84d;text-shadow:0 4px 0 #b64b19,0 0 24px #ffb52c88;letter-spacing:1px}p{color:#d7edff;line-height:1.6;margin:10px 0 18px}button{border:0;border-radius:16px;background:linear-gradient(180deg,#ffe86b,#ff9e22);color:#39200a;font-weight:1000;font-size:20px;padding:14px 34px;box-shadow:0 5px 0 #b85d17;cursor:pointer}#hint{font-size:13px;color:#b9d7ee;margin-top:16px}#over{display:none}#bottom{position:absolute;bottom:18px;left:0;right:0;text-align:center;color:#ffffffb9;font-weight:700;font-size:12px}#toast{position:absolute;top:19%;left:50%;transform:translateX(-50%);font-weight:900;color:#ffe46b;font-size:22px;opacity:0}
+</style></head><body><canvas id="game"></canvas><div id="hud"><div id="top"><div class="pill">🏆 <span id="score">0</span></div><div class="pill">🪙 <span id="coins">0</span></div><div class="pill">⚡ <span id="speed">1x</span></div></div><div id="toast">+100</div><div id="center"><div style="font-size:42px">🚇🌆</div><h1>CITY RUNNER</h1><p>اجري بأقصى سرعة! تفادى القطارات والحواجز واجمع العملات.</p><button id="start">ابدأ الجري</button><div id="hint">اسحب يمين / شمال للتغيير • أعلى للقفز • أسفل للانزلاق</div><div id="over"><h2 style="color:#ffe46b">انتهى السباق!</h2><p>نتيجتك: <b id="final">0</b>　🪙 <b id="finalcoins">0</b></p><button id="again">العب تاني</button></div></div><div id="bottom">CITY RUNNER • endless city adventure</div></div>
 <script>
-(()=>{'use strict';
-const $=id=>document.getElementById(id),canvas=$('game'),gl=canvas.getContext('webgl',{antialias:true,alpha:false,powerPreference:'high-performance'});
-if(!gl){$('title').textContent='WebGL غير مدعوم';$('description').textContent='جهازك لا يدعم تشغيل الرسومات ثلاثية الأبعاد المطلوبة.';return;}
-const VS='attribute vec3 p;uniform mat4 mvp;varying float depth;varying float shade;void main(){vec4 q=mvp*vec4(p,1.);gl_Position=q;depth=q.w;shade=.78+.22*max(0.,p.y);}';
-const FS='precision mediump float;uniform vec3 tint;uniform vec3 fogColor;varying float depth;varying float shade;void main(){float f=clamp((depth-13.)/34.,0.,.78);vec3 c=mix(tint*shade,fogColor,f);gl_FragColor=vec4(c,1.);}';
-function makeShader(type,src){const s=gl.createShader(type);gl.shaderSource(s,src);gl.compileShader(s);if(!gl.getShaderParameter(s,gl.COMPILE_STATUS))throw new Error(gl.getShaderInfoLog(s));return s;}
-const program=gl.createProgram();gl.attachShader(program,makeShader(gl.VERTEX_SHADER,VS));gl.attachShader(program,makeShader(gl.FRAGMENT_SHADER,FS));gl.linkProgram(program);if(!gl.getProgramParameter(program,gl.LINK_STATUS))throw new Error(gl.getProgramInfoLog(program));gl.useProgram(program);
-const posLoc=gl.getAttribLocation(program,'p'),mvpLoc=gl.getUniformLocation(program,'mvp'),tintLoc=gl.getUniformLocation(program,'tint'),fogLoc=gl.getUniformLocation(program,'fogColor');
-const cube=new Float32Array([-1,-1,1,1,-1,1,1,1,1,-1,-1,1,1,1,1,-1,1,1,1,-1,-1,-1,-1,-1,-1,1,-1,1,-1,-1,-1,1,-1,1,1,-1,-1,1,1,1,1,1,-1,-1,1,1,1,1,-1,-1,1,-1,-1,-1,-1,-1,1,1,-1,-1,-1,-1,1,-1,1,-1,1,-1,1,1,-1,-1,1,-1,1,-1,-1,1,1,-1,1,1,-1,-1,1,1,1,1,-1,1,1,1,-1,-1,-1,-1,-1,1,-1,1,1,-1,-1,-1,-1,1,1,-1,1,-1]);
-const sphere=[];for(let y=0;y<10;y++){const a1=y*Math.PI/10-Math.PI/2,a2=(y+1)*Math.PI/10-Math.PI/2;for(let x=0;x<16;x++){const b1=x*2*Math.PI/16,b2=(x+1)*2*Math.PI/16;const v=(a,b)=>[Math.cos(a)*Math.cos(b),Math.sin(a),Math.cos(a)*Math.sin(b)];const q=[v(a1,b1),v(a2,b1),v(a2,b2),v(a1,b1),v(a2,b2),v(a1,b2)];q.forEach(p=>sphere.push(...p));}}
-const cubeBuf=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,cubeBuf);gl.bufferData(gl.ARRAY_BUFFER,cube,gl.STATIC_DRAW);
-const sphereBuf=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,sphereBuf);gl.bufferData(gl.ARRAY_BUFFER,new Float32Array(sphere),gl.STATIC_DRAW);
-function bindBuffer(b){gl.bindBuffer(gl.ARRAY_BUFFER,b);gl.enableVertexAttribArray(posLoc);gl.vertexAttribPointer(posLoc,3,gl.FLOAT,false,0,0);}
-const mul=(a,b)=>{const o=new Float32Array(16);for(let c=0;c<4;c++)for(let r=0;r<4;r++)o[c*4+r]=a[r]*b[c*4]+a[4+r]*b[c*4+1]+a[8+r]*b[c*4+2]+a[12+r]*b[c*4+3];return o;};
-function persp(f,a,n,z){const t=1/Math.tan(f/2),o=new Float32Array(16);o[0]=t/a;o[5]=t;o[10]=(z+n)/(n-z);o[11]=-1;o[14]=2*z*n/(n-z);return o;}
-const sub=(a,b)=>a.map((v,i)=>v-b[i]),dot=(a,b)=>a.reduce((s,v,i)=>s+v*b[i],0),cross=(a,b)=>[a[1]*b[2]-a[2]*b[1],a[2]*b[0]-a[0]*b[2],a[0]*b[1]-a[1]*b[0]],norm=a=>{const l=Math.hypot(...a)||1;return a.map(v=>v/l);};
-function look(eye,center){const z=norm(sub(eye,center)),x=norm(cross([0,1,0],z)),y=cross(z,x);return new Float32Array([x[0],y[0],z[0],0,x[1],y[1],z[1],0,x[2],y[2],z[2],0,-dot(x,eye),-dot(y,eye),-dot(z,eye),1]);}
-function model(x,y,z,sx,sy,sz,rot=0){const c=Math.cos(rot),s=Math.sin(rot);return new Float32Array([c*sx,0,-s*sx,0,0,sy,0,0,s*sz,0,c*sz,0,x,y,z,1]);}
-let cubeDraws=0;
-function draw(mesh,matrix,color,count){gl.uniformMatrix4fv(mvpLoc,false,matrix);gl.uniform3fv(tintLoc,color);gl.drawArrays(gl.TRIANGLES,0,count);}
-let vp;
-function box(x,y,z,sx,sy,sz,color,rot=0){bindBuffer(cubeBuf);draw(cubeBuf,mul(vp,model(x,y,z,sx,sy,sz,rot)),color,36);}
-function orb(x,y,z,sx,sy,sz,color,rot=0){bindBuffer(sphereBuf);draw(sphereBuf,mul(vp,model(x,y,z,sx,sy,sz,rot)),color,sphere.length/3);}
-const palettes=[
- {name:'غابة الرماد',sky:[.055,.105,.15],ground:[.12,.24,.2],path:[.34,.27,.18],rock:[.34,.39,.42],leaf:[.10,.30,.19],glow:[.12,.82,.92],gate:[.34,.6,.78]},
- {name:'أطلال الشمس',sky:[.16,.105,.07],ground:[.31,.22,.12],path:[.48,.32,.17],rock:[.50,.39,.25],leaf:[.30,.28,.12],glow:[1,.60,.15],gate:[.92,.42,.12]},
- {name:'قلعة الظلال',sky:[.10,.045,.13],ground:[.16,.13,.22],path:[.25,.19,.28],rock:[.32,.29,.4],leaf:[.13,.15,.22],glow:[.32,.35,1],gate:[.7,.12,.45]}
-];
-const levelNames=['غابة الرماد','أطلال الشمس','قلعة الظلال'];
-let player={x:0,z:5,hp:100},stage=1,gems=0,kills=0,coins=0,started=false,paused=false,gateOpen=false,enemies=[],crystals=[],potions=[],chests=[],traps=[],decor=[],last=0,time=0,attackCd=0,dashCd=0,dashTime=0,invul=0,combo=0,comboTime=0,move={x:0,z:0},keys={},facing={x:0,z:-1},swing=0,muted=false,ac=null,best=Number(localStorage.getItem('lkBest')||1),language='ar';
-if($('best'))if($('best'))$('best').textContent=best;
-function sound(freq=440,dur=.07,type='sine',volume=.035){if(muted)return;try{ac=ac||new(window.AudioContext||window.webkitAudioContext)();const o=ac.createOscillator(),g=ac.createGain();o.type=type;o.frequency.value=freq;g.gain.setValueAtTime(volume,ac.currentTime);g.gain.exponentialRampToValueAtTime(.001,ac.currentTime+dur);o.connect(g);g.connect(ac.destination);o.start();o.stop(ac.currentTime+dur);}catch(e){}}
-function toast(t){$('toast').textContent=t;$('toast').style.display='block';clearTimeout(toast.timer);toast.timer=setTimeout(()=>$('toast').style.display='none',1650);}
-function enemy(x,z,type='guard'){const specs={guard:{hp:2,speed:1.1,damage:8,scale:1,color:[.62,.15,.17]},runner:{hp:2,speed:1.75,damage:7,scale:.78,color:[.83,.33,.14]},brute:{hp:4,speed:.72,damage:15,scale:1.35,color:[.30,.25,.38]},boss:{hp:18,speed:.9,damage:19,scale:1.9,color:[.34,.10,.30]}};return {x,z,type,...specs[type],max:specs[type].hp,hit:0,cool:0};}
-function spawnLevel(){const data=stage===1?[enemy(-3,-5),enemy(3,-10,'runner'),enemy(0,-17),enemy(-4,-22,'brute'),enemy(4,-24)]:stage===2?[enemy(-4,-5),enemy(4,-8,'runner'),enemy(-2,-13,'brute'),enemy(3,-17),enemy(-4,-21,'runner'),enemy(0,-24,'brute')]:[enemy(-3,-7),enemy(3,-12,'runner'),enemy(-4,-17,'brute'),enemy(0,-24,'boss')];enemies=data;
- const pts=[[-4,-4],[4,-12],[-1,-21]];crystals=pts.map((p,i)=>({x:p[0],z:p[1],got:false,spin:i}));
- potions=[{x:4,z:-6,got:false},{x:-4,z:-17,got:false}];chests=[{x:0,z:-10,open:false},{x:3,z:-20,open:false}];traps=[{x:-2,z:-8,cd:0},{x:2,z:-18,cd:0},{x:0,z:-23,cd:0}];decor=[];
- for(let z=3;z>-30;z-=3){decor.push({x:-8.3,z,kind:'tree'},{x:8.3,z:z-1,kind:'tree'});}
- for(let z=-2;z>-29;z-=6){decor.push({x:-6,z,kind:'torch'},{x:6,z:z-2,kind:'torch'});}
- for(let z=-5;z>-28;z-=7){decor.push({x:-7,z:z-2,kind:'rock'},{x:7,z:z-4,kind:'rock'});}
- gateOpen=false;$('bossWrap').style.display=stage===3?'block':'none';updateHud();
+(()=>{const canvas=document.getElementById('game'),ctx=canvas.getContext('2d');let W=0,H=0,dpr=1;
+function resize(){dpr=Math.min(devicePixelRatio||1,1.7);W=innerWidth;H=innerHeight;canvas.width=W*dpr;canvas.height=H*dpr;ctx.setTransform(dpr,0,0,dpr,0,0)}addEventListener('resize',resize);resize();
+const $=id=>document.getElementById(id);let running=false,dead=false,lane=0,score=0,coins=0,speed=1,dist=0,last=0,spawn=0,items=[],jump=0,slide=0,flash=0;
+const horizon=()=>H*.32, ground=()=>H*.91;
+function project(z,l){let t=1-z;let y=horizon()+Math.pow(t,1.7)*(ground()-horizon());let spread=W*(.055+.42*Math.pow(t,1.15));return {x:W/2+l*spread,y,s:0.18+1.12*t}}
+function rounded(x,y,w,h,r,color){ctx.fillStyle=color;ctx.beginPath();ctx.roundRect(x,y,w,h,r);ctx.fill()}
+function drawSky(){let g=ctx.createLinearGradient(0,0,0,H);g.addColorStop(0,'#54c8ef');g.addColorStop(.5,'#f6bb78');g.addColorStop(1,'#ffe0a0');ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
+let hy=horizon();ctx.fillStyle='#ffdc8c';ctx.beginPath();ctx.arc(W*.78,H*.2,Math.min(W,H)*.07,0,7);ctx.fill();
+for(let side of [-1,1]){for(let i=0;i<12;i++){let z=((i/12+dist*.00018)%1),t=1-z,y=hy+Math.pow(t,1.7)*(ground()-hy),x=W/2+side*(W*(.12+.66*Math.pow(t,1.1)));let bh=(.07+.16*((i*17)%9)/9)*H*Math.pow(t,.4),bw=(.045+.035*(i%3))*W*Math.max(.25,t);ctx.fillStyle=['#24516a','#34677a','#52727b','#30465e'][i%4];ctx.fillRect(x-bw/2,y-bh,bw,bh);ctx.fillStyle='#ffdb8b';for(let wy=y-bh+8;wy<y-5;wy+=13)for(let wx=x-bw/2+5;wx<x+bw/2-4;wx+=12)ctx.fillRect(wx,wy,4,5)}}}
+function drawTrack(){let hy=horizon(),gy=ground();ctx.fillStyle='#65747b';ctx.beginPath();ctx.moveTo(W*.34,hy);ctx.lineTo(W*.66,hy);ctx.lineTo(W*1.3,H);ctx.lineTo(-W*.3,H);ctx.fill();
+for(let l=-1;l<=1;l++){let a=project(0,l),b=project(1,l);ctx.strokeStyle='#dce6e4';ctx.lineWidth=4;ctx.beginPath();ctx.moveTo(W/2+l*W*.045,hy);ctx.lineTo(W/2+l*W*.43,gy);ctx.stroke()}
+for(let i=0;i<18;i++){let z=((i/18+dist*.00075)%1),p=project(z,0),width=W*(.04+.75*Math.pow(1-z,1.2));ctx.strokeStyle='#c4b6a0';ctx.lineWidth=3+z*5;ctx.beginPath();ctx.moveTo(p.x-width/2,p.y);ctx.lineTo(p.x+width/2,p.y);ctx.stroke()}
 }
-function updateHud(){const p=palettes[stage-1];$('stageName').textContent=language==='ar'?'الفصل '+['الأول','الثاني','الثالث'][stage-1]+' • '+p.name:'CHAPTER '+stage+' • '+p.name;$('health').style.width=player.hp+'%';$('hpText').textContent='❤️ '+Math.ceil(player.hp)+' / 100';$('gems').textContent=gems;$('kills').textContent=kills;$('coins').textContent=coins;$('bossWrap').style.display=stage===3&&enemies.some(e=>e.type==='boss'&&e.hp>0)?'block':'none';const alive=enemies.filter(e=>e.hp>0).length;$('mission').textContent=gems<3?'💎 اجمع البلورات: '+gems+' / 3 • الحراس: '+alive:(alive?'⚔ اهزم الحراس المتبقين: '+alive:'🏰 البوابة مفتوحة! اقترب منها واضغط تفاعل');const boss=enemies.find(e=>e.type==='boss');if(boss){$('bossFill').style.width=Math.max(0,boss.hp/boss.max*100)+'%';$('bossName').textContent='👑 حارس العرش';}}
-function resize(){const d=Math.min(devicePixelRatio||1,1.35),w=Math.floor(innerWidth*d),h=Math.floor(innerHeight*d);if(canvas.width!==w||canvas.height!==h){canvas.width=w;canvas.height=h;gl.viewport(0,0,w,h);}}
-function drawTree(t,p){box(t.x,.1,t.z,.25,.75,.25,[.28,.17,.1]);orb(t.x,.95,t.z,.8,.85,.8,p.leaf);orb(t.x-.35,1.25,t.z+.1,.48,.55,.5,p.leaf);orb(t.x+.35,1.15,t.z-.1,.5,.58,.5,p.leaf);}
-function drawWorld(p){box(0,-.72,-12,10,.55,23,p.ground);box(0,-.39,-12,2.35,.11,22,p.path);
- for(let x of [-10,10])box(x,.45,-12,.45,1.5,23,p.rock);
- for(let z=3;z>-30;z-=5){for(let x of [-8,8])box(x,-.05,z,.7,.12,.55,p.rock);}
- decor.forEach(d=>{if(d.kind==='tree')drawTree(d,p);else if(d.kind==='rock'){orb(d.x,-.05,d.z,.7,.42,.65,p.rock);box(d.x+.18,.12,d.z-.12,.22,.3,.25,p.rock);}else{box(d.x,.28,d.z,.22,.65,.22,p.rock);box(d.x,.72,d.z,.35,.12,.35,[.33,.25,.14]);orb(d.x,.95,d.z,.22,.25,.22,p.glow);}});
- // Ruined columns and arch
- for(let z=-6;z>-28;z-=9){for(let x of [-4.9,4.9]){box(x,.7,z,.28,.95,.28,p.rock);box(x,1.7,z,.48,.16,.48,p.rock);}}
- // Gate
- for(let x of [-1.45,1.45]){box(x,1.35,-29,.3,1.7,.4,p.rock);box(x,2.55,-29,.48,.18,.5,p.glow);}
- box(0,3.25,-29,1.8,.3,.5,p.rock);
- if(gateOpen){orb(0,1.35,-29,.95,1.35,.12,p.gate);orb(0,1.35,-28.84,.68,1.05,.08,p.glow);}
- // Gate floor rune
- orb(0,-.12,-26,.8,.035,.8,p.glow);
+function drawCoin(o){let p=project(o.z,o.l),r=11*p.s;ctx.save();ctx.translate(p.x,p.y-25*p.s);ctx.scale(.72+Math.abs(Math.sin(dist*.012+o.z*9))*.28,1);ctx.fillStyle='#ffb51b';ctx.strokeStyle='#fff18a';ctx.lineWidth=3*p.s;ctx.beginPath();ctx.arc(0,0,r,0,7);ctx.fill();ctx.stroke();ctx.fillStyle='#fff3a4';ctx.font='bold '+(r*1.15)+'px Arial';ctx.textAlign='center';ctx.fillText('$',0,r*.38);ctx.restore()}
+function drawObstacle(o){let p=project(o.z,o.l),s=p.s,w=58*s,h=60*s,x=p.x-w/2,y=p.y-h;
+if(o.type==='train'){rounded(x-13*s,y-75*s,w+26*s,h+75*s,10*s,'#147b91');rounded(x-7*s,y-67*s,w+14*s,31*s,7*s,'#a5e9f1');rounded(x-7*s,y-27*s,w+14*s,25*s,5*s,'#263b53');ctx.fillStyle='#f6d04e';ctx.fillRect(x-13*s,y-6*s, w+26*s,6*s)}
+else if(o.type==='bar'){rounded(x-10*s,y+18*s,w+20*s,18*s,5*s,'#ff9c24');ctx.fillStyle='#fff1c7';ctx.fillRect(x-4*s,y+20*s,9*s,14*s);ctx.fillRect(x+20*s,y+20*s,9*s,14*s)}
+else{rounded(x,y+20*s,w,h*.65,7*s,'#d65a36');rounded(x+8*s,y+27*s,w-16*s,14*s,4*s,'#ffce68');ctx.fillStyle='#6b3028';ctx.fillRect(x+9*s,y+h*.6,w-18*s,7*s)}
 }
-function drawPlayer(){const yaw=Math.atan2(facing.x,-facing.z),bob=Math.sin(time*9)*.035,px=player.x,pz=player.z;box(px,.13+bob,pz,.22,.27,.22,[.12,.16,.22],yaw);box(px,.62+bob,pz,.38,.43,.27,[.13,.35,.56],yaw);box(px,.68+bob,pz-.03,.25,.29,.3,[.23,.56,.76],yaw);orb(px,1.2+bob,pz,.25,.25,.24,[.77,.57,.39]);box(px-.29,.59+bob,pz,.14,.36,.18,[.16,.25,.36],yaw);box(px+.29,.59+bob,pz,.14,.36,.18,[.16,.25,.36],yaw);box(px-.16,.06+bob,pz+.03,.14,.23,.15,[.16,.18,.25],yaw);box(px+.16,.06+bob,pz-.04,.14,.23,.15,[.16,.18,.25],yaw);
- const handX=px+.43*Math.cos(yaw),handZ=pz-.43*Math.sin(yaw);box(handX,.58+bob,handZ,.075,.56,.075,[.8,.86,.93],yaw);box(handX,.92+bob,handZ,.13,.07,.12,[.95,.68,.2],yaw);
- if(swing>0){const sx=px+facing.x*.9,sz=pz+facing.z*.9;orb(sx,.65,sz,.68,.045,.68,[.4,.78,1]);}
- if(invul>0&&Math.floor(time*18)%2===0)orb(px,.6,pz,.55,.9,.55,[.35,.8,1]);
-}
-function drawEnemy(e){const k=e.scale,yaw=Math.atan2(player.x-e.x,-(player.z-e.z)),b=e.hit>0?.08:Math.sin(time*5+e.x)*.025;const color=e.hit>0?[1,.75,.55]:e.color;box(e.x,.25*k+b,e.z,.34*k,.33*k,.3*k,[.15,.13,.18],yaw);box(e.x,.78*k+b,e.z,.48*k,.51*k,.37*k,color,yaw);box(e.x,1.43*k+b,e.z,.3*k,.3*k,.29*k,[.22,.12,.12],yaw);orb(e.x-.11*k,1.46*k+b,e.z-.24*k,.055*k,.055*k,.045*k,[1,.18,.1]);orb(e.x+.11*k,1.46*k+b,e.z-.24*k,.055*k,.055*k,.045*k,[1,.18,.1]);
- if(e.type==='brute'||e.type==='boss'){box(e.x-.53*k,.8*k,e.z,.17*k,.63*k,.18*k,color,yaw);box(e.x+.53*k,.8*k,e.z,.17*k,.63*k,.18*k,color,yaw);}
- if(e.type==='boss'){box(e.x-.2,1.95*k+b,e.z,.12,.42,.12,[.88,.62,.18],yaw-.35);box(e.x+.2,1.95*k+b,e.z,.12,.42,.12,[.88,.62,.18],yaw+.35);}
- if(e.hp<e.max||e.type==='boss'){const w=.55*k;box(e.x,1.95*k+b,e.z,w,.045,.055,[.23,.08,.1]);box(e.x-w*(1-e.hp/e.max),1.95*k+b-.004,e.z,w*(e.hp/e.max),.05,.06,[.86,.18,.2]);}
-}
-function render(){resize();const p=palettes[stage-1]||palettes[0];gl.enable(gl.DEPTH_TEST);gl.clearColor(...p.sky,1);gl.clear(gl.COLOR_BUFFER_BIT|gl.DEPTH_BUFFER_BIT);const proj=persp(1.0,canvas.width/canvas.height,.1,90),eye=[player.x,5.1,player.z+8.2],view=look(eye,[player.x,.25,player.z-3.8]);vp=mul(proj,view);gl.uniform3fv(fogLoc,p.sky);bindBuffer(cubeBuf);drawWorld(p);
- // pickups
- crystals.forEach(c=>{if(!c.got){const y=.62+Math.sin(time*3+c.spin)*.12;orb(c.x,y,c.z,.22,.36,.22,p.glow,time*1.5);orb(c.x,y+.38,c.z,.11,.14,.11,[1,.83,.35],time);}});
- potions.forEach(o=>{if(!o.got){orb(o.x,.22,o.z,.2,.28,.2,[.7,.1,.18]);box(o.x,.49,o.z,.12,.1,.12,[.9,.85,.72]);}});
- chests.forEach(c=>{if(!c.open){box(c.x,.05,c.z,.43,.3,.38,[.4,.19,.07]);box(c.x,.36,c.z,.45,.12,.4,[.83,.55,.16]);box(c.x,.39,c.z-.4,.08,.13,.08,[1,.85,.35]);}});
- traps.forEach(t=>{orb(t.x,-.08,t.z,.58,.035,.58,[.44,.1,.15]);for(let i=0;i<4;i++)box(t.x+Math.cos(i*Math.PI/2)*.4,.05,t.z+Math.sin(i*Math.PI/2)*.4,.09,.09,.09,[.7,.18,.15]);});
- enemies.forEach(e=>{if(e.hp>0)drawEnemy(e);});drawPlayer();}
-function hitEnemy(e,damage){e.hp=Math.max(0,e.hp-damage);e.hit=.18;if(e.hp<=0){kills++;coins+=e.type==='boss'?100:e.type==='brute'?20:10;toast(e.type==='boss'?'👑 سقط حارس العرش!':'⚔ هزمت أحد الحراس');sound(130,.13,'sawtooth',.05);if(e.type==='boss'){$('bossWrap').style.display='none';} }else{sound(220,.05,'square',.025);} }
-function attack(){if(!started||paused||attackCd>0)return;attackCd=.42;combo=comboTime>0?(combo%3)+1:1;comboTime=.9;swing=.22;const power=combo===3?2:1;let hit=false;for(const e of enemies){if(e.hp<=0)continue;const dx=e.x-player.x,dz=e.z-player.z,d=Math.hypot(dx,dz),forward=(dx*facing.x+dz*facing.z)/(d||1);if(d<=(combo===3?2.8:2.25)&&forward>-.15){hitEnemy(e,power);hit=true;}}if(!hit)toast(combo===3?'ضربة ثقيلة! لم تصب أحداً':'اقترب وواجه العدو قبل الهجوم');else if(combo===3)toast('🔥 ضربة قوية!');if(navigator.vibrate)navigator.vibrate(22);updateHud();}
-function dash(){if(!started||paused||dashCd>0)return;dashCd=1.55;dashTime=.23;invul=.55;const dir=Math.hypot(move.x,move.z)>.15?norm([move.x,0,move.z]):[facing.x,0,facing.z];player.x=Math.max(-7,Math.min(7,player.x+dir[0]*2.0));player.z=Math.max(-26,Math.min(7,player.z+dir[2]*2.0));sound(520,.08,'triangle',.03);if(navigator.vibrate)navigator.vibrate(12);}
-function openChest(c){c.open=true;coins+=50;const heal=Math.min(100-player.hp,25);player.hp+=heal;toast('🎁 صندوق كنز! +50 عملة'+(heal?' • علاج +'+heal:'') );sound(660,.14,'sine');updateHud();}
-function interact(){if(!started||paused)return;const chest=chests.find(c=>!c.open&&Math.hypot(c.x-player.x,c.z-player.z)<1.8);if(chest){openChest(chest);return;}if(Math.hypot(player.x,player.z+29)<3){if(gateOpen){if(stage<3){stage++;player.x=0;player.z=5;player.hp=Math.min(100,player.hp+25);gems=0;kills=0;spawnLevel();toast('✨ بدأت '+levelNames[stage-1]+' • استعد!');sound(740,.25,'sine');}else winGame();}else toast('البوابة مغلقة: اجمع 3 بلورات واهزم كل الحراس');return;}toast('اقترب من صندوق الكنز أو بوابة الخروج');}
-function winGame(){started=false;paused=false;best=Math.max(best,3);localStorage.setItem('lkBest',best);if($('best'))$('best').textContent=best;$('overlay').style.display='flex';$('crest').textContent='👑🏆✨';$('title').textContent='استعدت المملكة!';$('description').textContent='انتصرت على حارس العرش وحررت الممالك الثلاث. أصبحت أسطورة المملكة الضائعة!';$('instructions').textContent='مجموع الأعداء المهزومين: '+kills+' • العملات: '+coins;$('start').textContent='ابدأ مغامرة جديدة';sound(880,.4,'triangle');}
-function die(){started=false;paused=false;$('overlay').style.display='flex';$('crest').textContent='🛡️';$('title').textContent='سقطت في المعركة';$('description').textContent='لا تستسلم. أعد المحاولة، استخدم الاندفاع لتفادي هجمات الوحوش وافتح الصناديق لاستعادة صحتك.';$('instructions').textContent='ستعيد المحاولة من بداية الفصل الحالي.';$('start').textContent='إعادة المحاولة';}
-function step(dt){if(!started||paused)return;time+=dt;let mx=move.x+(keys.ArrowRight?1:0)-(keys.ArrowLeft?1:0),mz=move.z+(keys.ArrowDown?1:0)-(keys.ArrowUp?1:0),len=Math.hypot(mx,mz);if(len>1){mx/=len;mz/=len;}if(Math.hypot(mx,mz)>.08){const l=Math.hypot(mx,mz);facing={x:mx/l,z:mz/l};}
- const speed=dashTime>0?13:4.9;player.x=Math.max(-7.2,Math.min(7.2,player.x+mx*dt*speed));player.z=Math.max(-27.2,Math.min(7.5,player.z+mz*dt*speed));
- crystals.forEach(c=>{if(!c.got&&Math.hypot(c.x-player.x,c.z-player.z)<1.15){c.got=true;gems++;coins+=15;toast('💎 حصلت على بلورة! +15 عملة');sound(790,.13,'sine');updateHud();}});
- potions.forEach(o=>{if(!o.got&&Math.hypot(o.x-player.x,o.z-player.z)<1.1){o.got=true;const heal=Math.min(35,100-player.hp);player.hp+=heal;toast('🧪 جرعة علاج +'+heal);sound(560,.12,'sine');updateHud();}});
- traps.forEach(t=>{t.cd-=dt;if(t.cd<=0&&Math.hypot(t.x-player.x,t.z-player.z)<.8&&invul<=0){player.hp=Math.max(0,player.hp-10);invul=.6;t.cd=1.8;toast('⚠ فخ! انتبه لخطواتك');updateHud();}});
- enemies.forEach(e=>{if(e.hp<=0)return;e.cool-=dt;e.hit=Math.max(0,e.hit-dt);const dx=player.x-e.x,dz=player.z-e.z,d=Math.hypot(dx,dz);if(d<16&&d>1.05){const v=e.speed*dt;e.x+=dx/d*v;e.z+=dz/d*v;}if(d<1.45&&e.cool<=0&&invul<=0){e.cool=e.type==='boss'?1.05:1.3;player.hp=Math.max(0,player.hp-e.damage);invul=.65;toast(e.type==='boss'?'💥 ضربة من حارس العرش!':'تلقيت ضربة! استخدم الاندفاع');sound(90,.1,'sawtooth',.05);updateHud();}});
- if(attackCd>0)attackCd-=dt;if(comboTime>0)comboTime-=dt;else combo=0;if(dashCd>0)dashCd-=dt;if(dashTime>0)dashTime-=dt;if(invul>0)invul-=dt;if(swing>0)swing-=dt;
- if(player.hp<=0)die();if(gems>=3&&enemies.every(e=>e.hp<=0)&&!gateOpen){gateOpen=true;toast('🏰 فُتحت بوابة الخروج!');sound(620,.3,'sine');updateHud();}
- const boss=enemies.find(e=>e.type==='boss');if(boss&&stage===3){$('bossFill').style.width=Math.max(0,boss.hp/boss.max*100)+'%';}
-}
-function loop(t){const dt=Math.min((t-last)/1000||0,.04);last=t;step(dt);render();requestAnimationFrame(loop);}
-function startGame(){$('overlay').style.display='none';player={x:0,z:5,hp:100};if(stage===1){coins=0;}gems=0;kills=0;started=true;paused=false;spawnLevel();updateHud();toast('انطلقت المغامرة!');}
-$('start').onclick=()=>{if(stage===3&&$('title').textContent==='استعدت المملكة!')stage=1;startGame();};
-$('attack').addEventListener('pointerdown',e=>{e.preventDefault();attack();});$('dash').addEventListener('pointerdown',e=>{e.preventDefault();dash();});$('interact').addEventListener('pointerdown',e=>{e.preventDefault();interact();});
-$('pause').onclick=()=>{if(!started)return;paused=!paused;$('pause').textContent=paused?'▶ متابعة':'Ⅱ إيقاف';if(paused)toast('اللعبة متوقفة مؤقتاً');};
-$('sound').onclick=()=>{muted=!muted;$('sound').textContent=muted?'♪ صامت':'♪ صوت';if(!muted)sound(600,.06);};
-$('language').onclick=()=>{language=language==='ar'?'en':'ar';document.documentElement.lang=language;document.documentElement.dir=language==='ar'?'rtl':'ltr';$('language').textContent=language==='ar'?'English':'العربية';if(language==='en'){$('description').textContent='A fallen kingdom. Fight the guardians, collect crystals, unlock gates, and reclaim the throne across three chapters.';$('instructions').textContent='Touch controls • Combo attacks • Dash to dodge • Treasure and healing potions';$('start').textContent='Begin Adventure';}else{$('description').textContent='انزل إلى ساحة المعركة وحدك. اجمع الأسلحة والذخيرة والعلاج، واهزم 12 خصمًا يتحكم فيهم الذكاء الاصطناعي، وابقَ آخر ناجٍ!';$('instructions').textContent='تحكم باللمس • إطلاق نار • اندفاع • منطقة آمنة تتقلص • صناديق غنائم';$('start').textContent='ابدأ المباراة';}};
-window.addEventListener('keydown',e=>{keys[e.key]=true;if(e.key===' '){e.preventDefault();attack();}if(e.key==='Shift')dash();if(e.key==='e'||e.key==='Enter')interact();if(e.key==='Escape'&&started)paused=!paused;});window.addEventListener('keyup',e=>keys[e.key]=false);
-const stick=$('stick'),nub=$('nub');let active=false;function setStick(e){const r=stick.getBoundingClientRect(),dx=e.clientX-(r.left+r.width/2),dy=e.clientY-(r.top+r.height/2),max=r.width*.34,l=Math.hypot(dx,dy),k=Math.min(1,max/(l||1));const x=dx*k,y=dy*k;nub.style.transform='translate('+x+'px,'+y+'px)';move.x=x/max;move.z=y/max;}
-stick.addEventListener('pointerdown',e=>{active=true;stick.setPointerCapture(e.pointerId);setStick(e);});stick.addEventListener('pointermove',e=>{if(active)setStick(e);});function stopStick(){active=false;move={x:0,z:0};nub.style.transform='';}stick.addEventListener('pointerup',stopStick);stick.addEventListener('pointercancel',stopStick);
-
-let matchTime=180,zoneRadius=19,ammo=30,weapon='مسدس';
-spawnLevel=function(){
- const spots=[[-5,-4],[4,-7],[-2,-10],[5,-14],[-5,-17],[1,-20],[-3,-24],[4,1],[-6,4],[0,-2],[6,-22],[-1,-27]];
- enemies=spots.map((p,i)=>enemy(p[0],p[1],i%5===0?'brute':i%3===0?'runner':'guard'));
- crystals=[];potions=[{x:4,z:-6,got:false},{x:-4,z:-17,got:false},{x:0,z:-25,got:false}];
- chests=[{x:0,z:-10,open:false},{x:3,z:-20,open:false},{x:-4,z:0,open:false}];traps=[];decor=[];
- for(let z=3;z>-30;z-=3){decor.push({x:-8.3,z,kind:'tree'},{x:8.3,z:z-1,kind:'tree'});}
- for(let z=-2;z>-29;z-=6){decor.push({x:-6,z,kind:'torch'},{x:6,z:z-2,kind:'torch'});}
- gateOpen=false;matchTime=180;zoneRadius=19;ammo=30;weapon='مسدس';updateHud();
-};
-updateHud=function(){
- const alive=enemies.filter(e=>e.hp>0).length;
- $('stageName').textContent='باتل رويال فردي';$('health').style.width=player.hp+'%';$('hpText').textContent='❤️ '+Math.ceil(player.hp)+' / 100';
- $('alive').textContent=alive+1;$('kills').textContent=kills;$('ammo').textContent=ammo;
- $('clock').textContent=Math.floor(matchTime/60).toString().padStart(2,'0')+':'+Math.floor(matchTime%60).toString().padStart(2,'0');
- $('mission').textContent='🔵 المنطقة الآمنة: '+Math.max(0,Math.round(zoneRadius))+'م • '+(weapon==='مسدس'?'ابحث عن سلاح أقوى':'السلاح: '+weapon);
-};
-hitEnemy=function(e,damage){e.hp=Math.max(0,e.hp-damage);e.hit=.18;if(e.hp<=0){kills++;coins+=10;toast('🎯 أسقطت خصمًا!');sound(130,.1,'sawtooth',.04);}else sound(220,.05,'square',.02);updateHud();};
-attack=function(){
- if(!started||paused||attackCd>0)return;if(ammo<=0){toast('الذخيرة خلصت! افتح صندوق غنائم');return;}
- attackCd=.24;ammo--;swing=.12;let target=null,bestD=14;
- for(const e of enemies){if(e.hp<=0)continue;const dx=e.x-player.x,dz=e.z-player.z,d=Math.hypot(dx,dz),forward=(dx*facing.x+dz*facing.z)/(d||1);if(d<bestD&&forward>.68){target=e;bestD=d;}}
- if(target){hitEnemy(target,weapon==='بندقية'?2:1);toast('💥 إصابة!');}else sound(150,.04,'square',.02);
- if(navigator.vibrate)navigator.vibrate(15);updateHud();
-};
-interact=function(){
- if(!started||paused)return;const chest=chests.find(c=>!c.open&&Math.hypot(c.x-player.x,c.z-player.z)<1.8);
- if(chest){chest.open=true;coins+=50;ammo=Math.min(90,ammo+25);weapon='بندقية';player.hp=Math.min(100,player.hp+20);toast('📦 غنائم: بندقية + ذخيرة + علاج');sound(660,.12);updateHud();return;}
- toast('اقترب من صندوق الغنائم لالتقاط السلاح');
-};
-winGame=function(){started=false;paused=false;$('overlay').style.display='flex';$('crest').textContent='🏆🎯';$('title').textContent='أنت آخر ناجٍ!';$('description').textContent='فزت بالمباراة الفردية وهزمت كل المنافسين!';$('instructions').textContent='الإقصاءات: '+kills+' • أحسنت يا بطل';$('start').textContent='العب مرة أخرى';sound(880,.35,'triangle');};
-die=function(){started=false;paused=false;$('overlay').style.display='flex';$('crest').textContent='☠️';$('title').textContent='انتهت المباراة';$('description').textContent='تم إقصاؤك من ساحة المعركة. اجمع غنائم أسرع وابقَ داخل المنطقة الآمنة.';$('instructions').textContent='الإقصاءات: '+kills+' • حاول مرة أخرى';$('start').textContent='إعادة المباراة';};
-step=function(dt){
- if(!started||paused)return;time+=dt;matchTime=Math.max(0,matchTime-dt);zoneRadius=Math.max(3,19-(180-matchTime)*.088);
- let mx=move.x+(keys.ArrowRight?1:0)-(keys.ArrowLeft?1:0),mz=move.z+(keys.ArrowDown?1:0)-(keys.ArrowUp?1:0),len=Math.hypot(mx,mz);
- if(len>1){mx/=len;mz/=len;}if(Math.hypot(mx,mz)>.08){const l=Math.hypot(mx,mz);facing={x:mx/l,z:mz/l};}
- const speed=dashTime>0?13:4.9;player.x=Math.max(-7.2,Math.min(7.2,player.x+mx*dt*speed));player.z=Math.max(-27.2,Math.min(7.5,player.z+mz*dt*speed));
- potions.forEach(o=>{if(!o.got&&Math.hypot(o.x-player.x,o.z-player.z)<1.1){o.got=true;const heal=Math.min(35,100-player.hp);player.hp+=heal;toast('🧪 علاج +'+heal);updateHud();}});
- enemies.forEach(e=>{if(e.hp<=0)return;e.cool-=dt;e.hit=Math.max(0,e.hit-dt);const dx=player.x-e.x,dz=player.z-e.z,d=Math.hypot(dx,dz);if(d<12&&d>1.2){const v=e.speed*dt;e.x+=dx/d*v*.65;e.z+=dz/d*v*.65;}if(d<9&&e.cool<=0&&invul<=0){e.cool=1.2+Math.random()*.8;player.hp=Math.max(0,player.hp-(e.type==='brute'?11:7));invul=.35;toast('🔫 خصم أطلق عليك!');updateHud();}});
- if(Math.hypot(player.x,player.z+10)>zoneRadius&&invul<=0)player.hp=Math.max(0,player.hp-5*dt);
- if(attackCd>0)attackCd-=dt;if(dashCd>0)dashCd-=dt;if(dashTime>0)dashTime-=dt;if(invul>0)invul-=dt;if(swing>0)swing-=dt;
- if(player.hp<=0){die();return;}if(enemies.every(e=>e.hp<=0)||matchTime<=0){winGame();return;}updateHud();
-};
-startGame=function(){$('overlay').style.display='none';player={x:0,z:5,hp:100};coins=0;gems=0;kills=0;started=true;paused=false;spawnLevel();updateHud();toast('🎯 بدأت المباراة! اهزم الـ 12 منافسًا');};
-
-window.addEventListener('resize',resize);spawnLevel();updateHud();requestAnimationFrame(loop);
+function drawRunner(){let p=project(0,lane),x=p.x,y=ground()-10;let j=jump>0?Math.sin((1-jump)*Math.PI)*H*.19:0;y-=j;let s=Math.min(W,H)/420;ctx.save();ctx.translate(x,y);ctx.scale(s,s);if(slide>0){ctx.rotate(-.12);rounded(-23, -22,46,26,12,'#12a9c5');ctx.fillStyle='#f0b98d';ctx.beginPath();ctx.arc(20,-22,12,0,7);ctx.fill()}else{ctx.fillStyle='#101a2d';ctx.beginPath();ctx.ellipse(-10,0,10,5,0,0,7);ctx.ellipse(12,0,10,5,0,0,7);ctx.fill();rounded(-17,-48,34,43,10,'#10a6c6');ctx.fillStyle='#e9a77b';ctx.beginPath();ctx.arc(0,-62,15,0,7);ctx.fill();rounded(-16,-79,32,8,5,'#f4b72f');ctx.fillStyle='#172b45';ctx.fillRect(-11,-65,7,4);ctx.fillRect(4,-65,7,4);ctx.strokeStyle='#f3c2a0';ctx.lineWidth=8;ctx.beginPath();ctx.moveTo(-15,-39);ctx.lineTo(-25,-22+Math.sin(dist*.03)*4);ctx.moveTo(15,-39);ctx.lineTo(24,-22-Math.sin(dist*.03)*4);ctx.stroke();ctx.fillStyle='#263c68';ctx.fillRect(-13,-9,11,10);ctx.fillRect(3,-9,11,10)}ctx.restore()}
+function frame(t){let dt=Math.min((t-last)/16||1,2.5);last=t;if(running){dist+=dt*speed;score+=Math.floor(dt*speed*.22);speed=1+Math.min(2.2,score/1800);spawn-=dt;if(spawn<=0){let l=Math.floor(Math.random()*3)-1,types=['train','bar','box'];items.push({l,z:1,type:types[Math.floor(Math.random()*types.length)]});if(Math.random()<.7)for(let k=0;k<4;k++)items.push({l,z:1-k*.075,type:'coin'});spawn=Math.max(24,65-speed*12)}if(jump>0)jump=Math.max(0,jump-dt*.025);if(slide>0)slide=Math.max(0,slide-dt*.025);items.forEach(o=>o.z-=dt*(.006+speed*.0015));items=items.filter(o=>o.z>-.08);for(let o of items){if(o.z<.085&&o.z>-.025&&o.l===lane){if(o.type==='coin'){coins++;o.z=-1;flash=12}else if((o.type==='bar'&&jump<=0)||(o.type==='box'&&slide<=0)||(o.type==='train')){end();break}}} }
+drawSky();drawTrack();items.slice().sort((a,b)=>b.z-a.z).forEach(o=>o.type==='coin'?drawCoin(o):drawObstacle(o));drawRunner();if(flash>0){flash--;let el=$('toast');el.style.opacity=flash/12;el.style.top=(19-flash*.2)+'%'}$('score').textContent=score;$('coins').textContent=coins;$('speed').textContent=speed.toFixed(1)+'x';requestAnimationFrame(frame)}
+requestAnimationFrame(frame);
+function start(){running=true;dead=false;score=0;coins=0;speed=1;dist=0;lane=0;jump=0;slide=0;items=[];spawn=20;$('center').style.display='none'}
+function end(){if(dead)return;dead=true;running=false;$('center').style.display='block';$('start').style.display='none';$('over').style.display='block';$('final').textContent=score;$('finalcoins').textContent=coins}
+$('start').onclick=start;$('again').onclick=()=>{$('start').style.display='inline-block';$('over').style.display='none';start()};
+function move(dir){if(!running)return;if(dir==='left')lane=Math.max(-1,lane-1);if(dir==='right')lane=Math.min(1,lane+1);if(dir==='up'&&jump<=0&&slide<=0)jump=1;if(dir==='down'&&jump<=0)slide=1}
+let sx=0,sy=0;canvas.addEventListener('pointerdown',e=>{sx=e.clientX;sy=e.clientY});canvas.addEventListener('pointerup',e=>{let dx=e.clientX-sx,dy=e.clientY-sy;if(Math.max(Math.abs(dx),Math.abs(dy))<22)return;if(Math.abs(dx)>Math.abs(dy))move(dx>0?'right':'left');else move(dy>0?'down':'up')});addEventListener('keydown',e=>{if(e.key==='ArrowLeft'||e.key==='a')move('left');if(e.key==='ArrowRight'||e.key==='d')move('right');if(e.key==='ArrowUp'||e.key==='w'||e.key===' ')move('up');if(e.key==='ArrowDown'||e.key==='s')move('down')});
 })();
 </script></body></html>
