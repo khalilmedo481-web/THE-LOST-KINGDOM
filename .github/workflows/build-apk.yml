@@ -1,8 +1,12 @@
-name: Build THE LOST KINGDOM APK
+name: Build and publish THE LOST KINGDOM Android APK
+
 on:
   workflow_dispatch:
   push:
     branches: [ main ]
+
+permissions:
+  contents: write
 
 jobs:
   build:
@@ -32,12 +36,45 @@ jobs:
         with:
           gradle-version: '8.9'
 
-      - name: Build debug APK
-        run: gradle assembleDebug
+      - name: Build APK
+        run: gradle --no-daemon clean assembleDebug
 
-      - name: Upload APK
+      - name: Verify APK package, contents and signature
+        shell: bash
+        run: |
+          set -euo pipefail
+          APK="app/build/outputs/apk/debug/app-debug.apk"
+          test -s "$APK"
+          test "$(stat -c%s "$APK")" -gt 10000
+          unzip -t "$APK"
+          "$ANDROID_HOME/build-tools/35.0.0/apksigner" verify --verbose "$APK"
+          "$ANDROID_HOME/build-tools/35.0.0/aapt" dump badging "$APK" | tee /tmp/apk-badging.txt
+          grep -q "package: name='com.lostkingdom.game3d'" /tmp/apk-badging.txt
+          unzip -l "$APK" | grep -q 'assets/index.html'
+          unzip -l "$APK" | grep -q 'classes.dex'
+
+      - name: Upload APK artifact backup
         uses: actions/upload-artifact@v4
         with:
           name: THE-LOST-KINGDOM-APK
           path: app/build/outputs/apk/debug/app-debug.apk
           if-no-files-found: error
+          retention-days: 90
+
+      - name: Publish direct APK download
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: android-3d-build-${{ github.run_number }}
+          name: THE LOST KINGDOM 3D - Android build ${{ github.run_number }}
+          target_commitish: ${{ github.sha }}
+          body: |
+            نسخة Android 3D تجريبية للعبة THE LOST KINGDOM.
+            الحد الأدنى Android 5.0، وتعمل دون اتصال بالإنترنت.
+          files: app/build/outputs/apk/debug/app-debug.apk
+          fail_on_unmatched_files: true
+          prerelease: true
+          make_latest: false
+
+      - name: Print direct download link
+        run: |
+          echo "APK: https://github.com/${{ github.repository }}/releases/download/android-3d-build-${{ github.run_number }}/app-debug.apk" >> "$GITHUB_STEP_SUMMARY"
